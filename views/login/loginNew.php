@@ -89,11 +89,11 @@
     <form action="" method="GET">
         <div class="main">
             <div style=" width: 60%;">
-                <img style="height: 92%; width: 100%; margin-left: 0px;" src="/resources/11.png">
+                <img style="height: 92%; width: 100%; margin-left: 0px;" src="./resources/11.png">
             </div>
             <div style=" width: 40%; padding-left: 50px; padding-top: 60px;">
                 <div>
-                    <img style="height: 20%; width: 20%; margin-left: 0px;" src="/resources/12.jpg">
+                    <img style="height: 20%; width: 20%; margin-left: 0px;" src="./resources/12.jpg">
                 </div>
                 <div style="padding-top: 60px; padding-bottom: 40px;">
                     <h1>เข้าสู่ระบบ Pigeon</h1>
