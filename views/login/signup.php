@@ -93,41 +93,44 @@
 
 </style>
 <body>
-    <form action="" method="GET">
-        <div class="main">
-            <div style=" width: 60%;">
-                <img style="height: 92%; width: 100%; margin-left: 0px;" src="./resources/11.png">
+    <div class="main">
+        <div style=" width: 60%;">
+            <img style="height: 92%; width: 100%; margin-left: 0px;" src="./resources/11.png">
+        </div>
+        <div style=" width: 40%; padding-left: 50px; padding-top: 10px;">
+            <div>
+                <img style="height: 20%; width: 20%; margin-left: 0px;" src="./resources/12.jpg">
             </div>
-            <div style=" width: 40%; padding-left: 50px; padding-top: 10px;">
-                <div>
-                    <img style="height: 20%; width: 20%; margin-left: 0px;" src="./resources/12.jpg">
-                </div>
-                <div style="padding-top: 30px; padding-bottom: 10px;">
-                    <h1>สมัครสมาชิก Pigeon</h1>
-                </div>
-                <div class="content">
+            <div style="padding-top: 30px; padding-bottom: 10px;">
+                <h1>สมัครสมาชิก Pigeon</h1>
+            </div>
+            <div class="content">
+                <form action="" method="GET">
                     <input type="text" id="email" name="email" placeholder="อีเมล">
-                    <p style="color: red; font-size: 6px;" id="warning">แจ้งเตือน!</p>
+                    <p style="color: red; font-size: 6px; <?php if($error % 3 != 0) echo " visibility:hidden";?>" id="warning">email นี้ถูกใช้ไปแล้ว!</p>
                     <input type="text" id="username" name="username" placeholder="ชื่อผู้ใช้">
-                    <p style="color: red; font-size: 6px;" id="warning">แจ้งเตือน!</p>
+                    <p style="color: red; font-size: 6px; <?php if($error % 2 != 0) echo " visibility:hidden";?>" id="warning">username นี้ถูกใช้ไปแล้ว!</p>
                     <input type="password" id="pass" name="pass" placeholder="รหัสผ่าน">
-                    <p style="color: red; font-size: 6px;" id="warning">แจ้งเตือน!</p>
-                    <input type="password" id="pass" name="pass" placeholder="ยืนยันรหัสผ่าน">
-                    <p style="color: red; font-size: 6px;" id="warning">แจ้งเตือน!</p>
+                    <p style="color: red; font-size: 6px; visibility:hidden;" id="warning">แจ้งเตือน!</p>
+                    <input type="password" id="comfirmPass" name="comfirmPass" placeholder="ยืนยันรหัสผ่าน">
                     <br>
                     <b style="color: black;">การสมัครนี้จะถือว่าคุณยอมรับ </b> <b>ข้อตกลงการใช้งาน</b> <b style="color: black;">และ</b> 
                     <b>นโยบายความเป็นส่วนตัว</b> 
                     <br>
                     <b style="color: black;">รวมถึง</b> <b>การใช้คุกกี้</b>
                     <br>
-                    <button type="submit" name="action" value="signupForm" onclick="validate(this.value)">สมัครสมาชิก</button>
-                </div>
-                <div class="content" style="padding-top: 20px;">
-                    <button class="regis" type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
-                </div>
+                    <input type="hidden" name="controller" value="login"/>
+                    <button type="submit" name="action" value="signup" onclick="validate(this.value)">สมัครสมาชิก</button>
+                </form>
+            </div>
+            <div class="content" style="padding-top: 20px;">
+                <form action="" method="GET">
+                    <input type="hidden" name="controller" value="login"/>
+                    <button class="regis" type="submit" name="action" value="loginForm">เข้าสู่ระบบ</button>
+                </form> 
             </div>
         </div>
-    </form>
+    </div>
     <div class="footer">
         <nav>
             <a href="#">เกี่ยวกับ</a>
@@ -153,19 +156,33 @@
     </div>
     <script>
         function validate(action) {
-            var id = document.getElementById("id");
-            id.value = id.value.trim();
-            id.setCustomValidity('');
+            var email = document.getElementById("email");
+            email.value = email.value.trim();
+            email.setCustomValidity('');
+            var username = document.getElementById("username");
+            username.value = username.value.trim();
+            username.setCustomValidity('');
             var pass = document.getElementById("pass");
             pass.value = pass.value.trim();
             pass.setCustomValidity('');
-            
-            if(action == "login"){
-                if(id.value == ""){
-                    id.setCustomValidity('กรุณาใส่ไอดี');
+            var comfirmPass = document.getElementById("comfirmPass");
+            comfirmPass.value = comfirmPass.value.trim();
+            comfirmPass.setCustomValidity('');
+            if(action == "signup"){
+                if(email.value == ""){
+                    email.setCustomValidity('กรุณาใส่ email');
+                }
+                else if(username.value == ""){
+                    username.setCustomValidity('กรุณาใส่ username');
                 }
                 else if(pass.value == ""){
-                    pass.setCustomValidity('กรุณาใส่รหัสผ่าน');
+                    pass.setCustomValidity('กรุณาใส่ password');
+                }
+                else if(comfirmPass.value == ""){
+                    comfirmPass.setCustomValidity('กรุณายันยืน password');
+                }
+                else if(pass.value != comfirmPass.value){
+                    comfirmPass.setCustomValidity('password ไม่ตรงกับที่ใส่ก่อนหน้า');
                 }
             }
         }

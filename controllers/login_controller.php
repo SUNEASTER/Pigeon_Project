@@ -50,33 +50,38 @@ class LoginController
         $id = "";
         $password = "";
         $email = "";
-        $error = "";
+        $error = 1;
         if(isset($_SESSION["id"]))
             $id = $_SESSION["id"];
         if(isset($_SESSION["password"]))
             $password = $_SESSION["password"];
         if(isset($_SESSION["email"]))
             $email = $_SESSION["email"];
+        if(isset($_SESSION["error"]))
+            $error = $_SESSION["error"];
         session_unset();
 
         require_once("./views/login/signup.php");
     }
 
     public function signup(){
-        $id = $_GET['id'];
+        $id = $_GET['username'];
         $password = $_GET['pass'];
         $email = $_GET['email'];
         $error = 1;
 
         $user = User::getByUserId($id);
         if( !is_null($user) ) {
+            echo($user->Open_Id);
+            echo('test');
             $error = $error * 2;
         }
         $user = User::getByEmail($email);
         if( !is_null($user) ) {    
+            echo($user->Open_Id);
             $error = $error * 3;
         }
-        
+        echo($error);
         if($error == 1) {
             User::addUser($id, $password, $email);
             header("Location: ?controller=login&action=loginForm");

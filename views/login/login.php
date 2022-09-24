@@ -86,33 +86,35 @@
     }
 </style>
 <body>
-    <form action="" method="GET">
-        <div class="main">
-            <div style=" width: 60%;">
-                <img style="height: 92%; width: 100%; margin-left: 0px;" src="./resources/11.png">
+    <div class="main">
+        <div style=" width: 60%;">
+            <img style="height: 92%; width: 100%; margin-left: 0px;" src="./resources/11.png">
+        </div>
+        <div style=" width: 40%; padding-left: 50px; padding-top: 20px;">
+            <div>
+                <img style="height: 20%; width: 20%; margin-left: 0px;" src="./resources/12.jpg">
             </div>
-            <div style=" width: 40%; padding-left: 50px; padding-top: 20px;">
-                <div>
-                    <img style="height: 20%; width: 20%; margin-left: 0px;" src="./resources/12.jpg">
-                </div>
-                <div style="padding-top: 60px; padding-bottom: 20px;">
-                    <h1>เข้าสู่ระบบ Pigeon</h1>
-                </div>
-                <div class="content">
-                    <input type="text" id="id" name="id" placeholder="ชื่อผู้ใช้">
-                    <p style="color: red; font-size: 6px;" id="warning">แจ้งเตือน!</p>
-                    <input type="password" id="pass" name="pass" placeholder="รหัสผ่าน">
-                    <!-- <b <?php if($warning == "") echo " style= visibility:hidden";?>><p id="warning" ><?php echo $warning;?> !</p></b> -->
-                    <p style="color: red; font-size: 6px;" id="warning">แจ้งเตือน!</p>
-                    <button  type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
-                </div>
+            <div style="padding-top: 60px; padding-bottom: 20px;">
+                <h1>เข้าสู่ระบบ Pigeon</h1>
+            </div>
+            <div class="content">
+            <form action="" method="GET">
+                <input type="text" id="id" name="id" placeholder="ชื่อผู้ใช้">
+                <p style="color: red; font-size: 6px; visibility: hidden;" id="warning">แจ้งเตือน!</p>
+                <input type="password" id="pass" name="pass" placeholder="รหัสผ่าน">
+                <p style="color: red; font-size: 6px; <?php if($warning == "") echo " visibility:hidden";?>" id="warning"><?php echo $warning;?>!</p>
+                <button  type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
                 <input type="hidden" name="controller" value="login"/>
-                <div class="content" style="padding-top: 100px;">
+                </form>
+            </div>
+            <div class="content" style="padding-top: 100px;">
+                <form action="" method="GET">
+                <input type="hidden" name="controller" value="login"/>
                     <button class="regis" type="submit" name="action" value="signupForm" onclick="validate(this.value)">สมัครสมาชิก</button>
-                </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
     <div class="footer">
         <nav>
             <a href="#">เกี่ยวกับ</a>
