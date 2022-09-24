@@ -91,19 +91,20 @@
             <div style=" width: 60%;">
                 <img style="height: 92%; width: 100%; margin-left: 0px;" src="./resources/11.png">
             </div>
-            <div style=" width: 40%; padding-left: 50px; padding-top: 60px;">
+            <div style=" width: 40%; padding-left: 50px; padding-top: 20px;">
                 <div>
                     <img style="height: 20%; width: 20%; margin-left: 0px;" src="./resources/12.jpg">
                 </div>
-                <div style="padding-top: 60px; padding-bottom: 40px;">
+                <div style="padding-top: 60px; padding-bottom: 20px;">
                     <h1>เข้าสู่ระบบ Pigeon</h1>
                 </div>
                 <div class="content">
-                    <input type="text" id="id" name="id" placeholder="ไอดี">
+                    <input type="text" id="id" name="id" placeholder="ชื่อผู้ใช้">
+                    <p style="color: red; font-size: 6px;" id="warning">แจ้งเตือน!</p>
                     <input type="password" id="pass" name="pass" placeholder="รหัสผ่าน">
                     <!-- <b <?php if($warning == "") echo " style= visibility:hidden";?>><p id="warning" ><?php echo $warning;?> !</p></b> -->
-                    <b><p id="warning">แจ้งเตือน!</p></b>
-                    <button type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
+                    <p style="color: red; font-size: 6px;" id="warning">แจ้งเตือน!</p>
+                    <button  type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
                 </div>
                 <input type="hidden" name="controller" value="login"/>
                 <div class="content" style="padding-top: 100px;">
