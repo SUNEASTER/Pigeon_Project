@@ -38,7 +38,7 @@
             }
         }
 
-        public static function getByTag($Tag_ID){
+        public static function getByTagId($Tag_ID){
             try {
                 require("connectionConnect.php");
                 $tsql = "SELECT TOP(1) * FROM tag where tagId = $Tag_ID";
@@ -52,7 +52,7 @@
                     $Name = $row['name'];
                     $Count++;
                 }
-                sqlsrv_free_stmt($getUser);
+                sqlsrv_free_stmt($getTag);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;

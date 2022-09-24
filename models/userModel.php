@@ -130,12 +130,7 @@
                 $insertUser = sqlsrv_query($conn, $tsql);
                 if($insertUser == FALSE)
                     die(FormatErrors( sqlsrv_errors()));
-                echo "Product Key inserted is :";
-                // while($row = sqlsrv_fetch_array($insertUser, SQLSRV_FETCH_ASSOC))
-                // {
-                //     echo($row['userOpenId']);
-                // }
-                sqlsrv_free_stmt($insertReview);
+                sqlsrv_free_stmt($insertUser);
                 sqlsrv_close($conn);
             }
             catch(Exception $e){
