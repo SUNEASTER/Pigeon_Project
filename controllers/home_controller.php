@@ -7,7 +7,6 @@ class HomeController
             $openID = $_SESSION['openID'];
         $user = User::getByOpenID($openID);
 
-        require_once("./views/nabbar.php");
         require_once("./views/home/index.php");
     }
 
