@@ -79,10 +79,16 @@
         padding: 14px 16px;
         text-decoration: none;
     }
+
     a{
         color: #75777c;
         text-align: center;
         padding: 14px 11px;
+    }
+
+    b{
+        font-size: 4px;
+        color: blue;
     }
 </style>
 <body>
@@ -96,16 +102,24 @@
                     <img style="height: 20%; width: 20%; margin-left: 0px;" src="./resources/12.jpg">
                 </div>
                 <div style="padding-top: 60px; padding-bottom: 40px;">
-                    <h1>เข้าสู่ระบบ Pigeon</h1>
+                    <h1>สมัครสมาชิก Pigeon</h1>
                 </div>
                 <div class="content">
-                    <input type="text" id="id" name="id" placeholder="ไอดี">
+                    <input type="text" id="email" name="email" placeholder="อีเมล">
+                    <b><p id="warning">แจ้งเตือน!</p></b>
+                    <input type="text" id="username" name="username" placeholder="ชื่อผู้ใช้">
+                    <b><p id="warning">แจ้งเตือน!</p></b>
                     <input type="password" id="pass" name="pass" placeholder="รหัสผ่าน">
-                    <button type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
+                    <br>
+                    <b style="color: black;">การสมัครนี้จะถือว่าคุณยอมรับ </b> <b>ข้อตกลงการใช้งาน</b> <b style="color: black;">และ</b> 
+                    <b>นโยบายความเป็นส่วนตัว</b> 
+                    <br>
+                    <b style="color: black;">รวมถึง</b> <b>การใช้คุกกี้</b>
+                    <br>
+                    <button type="submit" name="action" value="signupForm" onclick="validate(this.value)">สมัครสมาชิก</button>
                 </div>
-                <input type="hidden" name="controller" value="login"/>
-                <div class="content" style="padding-top: 100px;">
-                    <button class="regis" type="submit" name="action" value="login" onclick="validate(this.value)">สมัครสมาชิก</button>
+                <div class="content" style="padding-top: 20px;">
+                    <button class="regis" type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
                 </div>
             </div>
         </div>

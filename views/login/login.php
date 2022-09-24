@@ -1,164 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIN</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Login</title>
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-    @import url('https://fonts.googleapis.com/css?family=Kanit%7CPrompt');
-    @import url('https://fonts.googleapis.com/css?family=Chonburi');
     *{
-        margin: 0px; 
-        padding: 0px; 
+        margin: 0;
+        padding: 0;
         box-sizing: border-box;
         font-family: 'Open Sans','Prompt', sans-serif ;
-
     }
 
-    .flex-container {
+    .main{
         display: flex;
         flex-direction : row;
         margin-left: 0px;
-        height: 100%;
-        width: 100%;
-        
-    }
-
-    .flex-container .pic {
-        width: 60%;
-        background-color:#ac2421;
-    }
-
-    .flex-container .from{
-        width: 40%;
-    }
-
-    .flex-container .from .from-detail{
-       margin: 120px 100px ;
-    }
-
-    button{
-        background-color: #ffff;
-        height: 50%;
-        width: 24%;
-        /* margin-left: auto;
-        margin-right: auto; */
-    }
-
-    button.button1{
-        
-    }
-
-    #warning{
-        font-size:20px;
-        text-align: start;
-        margin-left: 15px;
-        color:red;
-    }
-
-    img {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .button_class{
-        flex-direction: row-reverse; 
-        justify-content: space-evenly; 
-        display: flex; 
-        height: 14%;
+        height: 800px;
         width: 100%;
     }
 
-    .button_class .button1{
-        border-radius: 10px;
-        background-color: #be2623;
+    input[type=text], input[type=password] {
+        width: 80%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    input[type=text]:hover, input[type=password]:hover {
+        border: 1px solid #058dc1;
+    }
+
+    button[type=submit] {
+        width: 80%;
+        background-color: #0394c9;
         color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
     }
 
-    .button_class .button1:hover {
-        background-color: red;
+    button[type=submit]:hover {
+        background-color: #0386ba;
     }
 
-    .button_class .button2{
-        border-radius: 10px;
-        background-color: #be2623;
+    .content {
+        width: 80%;
+        border-radius: 5px;
+        background-color: white;
+    }
+    .content .regis{
+        background-color: white;  
+        color: #004366; 
+        border: 1px solid #058dc1;
+    }
+    
+    .content .regis:hover{
         color: white;
+        background-color: #0386ba;
+    }
+    .footer {
+        left: 0;
+        bottom: 0;
+        margin-top: -60px;
+        width: 100%;
+        color: #75777c;
+        text-align: center;
+        font-size: 11px;
     }
 
-    .button_class .button2:hover {
-        background-color: red;
+    nav {
+        padding: 14px 16px;
+        text-decoration: none;
     }
-
+    a{
+        color: #75777c;
+        text-align: center;
+        padding: 14px 11px;
+    }
 </style>
-
-<body >
-   <div class="flex-container" >
-
-       <div class= "pic"> 
-            <img style="height: 100%; width: 100%; margin-left: 0px;" src="../../resources/logologin.jpg" alt="cat">
-       </div>
-       
-       <div class ="from">
-            <div class= "from-detail">
-                <form action="" method="GET">
-
-                    <div class="form-group" >
-                        <h1 style="text-align: center; font-size: 150px; "><b style= "font-family:'Chonburi';">Login</b></h1>
-                    </div>
-                    <br>
-                    <br>
-                    <div class="form-group"  >
-                        <input style="border-color:black; border-width: 3px;" type="text" id="id" name="id" placeholder="ID" class="form-control form-control-lg" title="Eight or more characters" />
-                    </div>
-                    <br>
-                    <br>
-                    <div class="form-group" >
-                        <input style="border-color:black; border-width: 3px; " type="password" id="pass" name="pass" placeholder="PASSWORD" class="form-control form-control-lg"/>
-                    </div>
-                    <br>
-                    <input type="hidden" name="controller" value="login"/>
-                
-                    <div class="button_class" >
-                        <button class="button1" type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
-                        <button class="button2" type="submit" name="action" value="back" onclick="validate(this.value)">หน้าหลัก</button>
-                    </div>
-
-                </form>
-                
-
-               
-
-            </div>    
+<body>
+    <form action="" method="GET">
+        <div class="main">
+            <div style=" width: 60%;">
+                <img style="height: 92%; width: 100%; margin-left: 0px;" src="./resources/11.png">
+            </div>
+            <div style=" width: 40%; padding-left: 50px; padding-top: 60px;">
+                <div>
+                    <img style="height: 20%; width: 20%; margin-left: 0px;" src="./resources/12.jpg">
+                </div>
+                <div style="padding-top: 60px; padding-bottom: 40px;">
+                    <h1>เข้าสู่ระบบ Pigeon</h1>
+                </div>
+                <div class="content">
+                    <input type="text" id="id" name="id" placeholder="ไอดี">
+                    <input type="password" id="pass" name="pass" placeholder="รหัสผ่าน">
+                    <button type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
+                </div>
+                <div class="form-group" >
+                    <!-- <b <?php if($warning == "") echo " style= visibility:hidden";?>><p id="warning" ><?php echo $warning;?> !</p></b> -->
+                    <b><p id="warning">แจ้งเตือน!</p></b>
+                </div>
+                <input type="hidden" name="controller" value="login"/>
+                <div class="content" style="padding-top: 100px;">
+                    <button class="regis" type="submit" name="action" value="signupForm" onclick="validate(this.value)">สมัครสมาชิก</button>
+                </div>
+            </div>
         </div>
-
-   </div>
-
-<script>
-    function validate(action) {
-        var id = document.getElementById("id");
-        id.value = id.value.trim();
-        id.setCustomValidity('');
-        var pass = document.getElementById("pass");
-        pass.value = pass.value.trim();
-        pass.setCustomValidity('');
+    </form>
+    <div class="footer">
+        <nav>
+            <a href="#">เกี่ยวกับ</a>
+            <a href="#">ศูนย์ความช่วยเหลือ</a>
+            <a href="#">ข้อตกลงการให้บริการ</a>
+            <a href="#">นโยบายความเป็นส่วนตัว</a>
+            <a href="#">นโยบายคุกกี้</a>
+            <a href="#">การเข้าถึง</a>
+            <a href="#">ข้อมูลโฆษณา</a>
+            <a href="#">บล็อก</a>
+            <a href="#">สถานะ</a>
+            <a href="#">อาชีพ</a>
+            <a href="#">ทรัพยากรด้านแบรนด์</a>
+            <a href="#">โฆษณา</a>
+            <a href="#">การตลาด</a>
+            <a href="#">ทวิตเตอร์สำหรับธุรกิจ</a>
+            <a href="#">นักพัฒนา</a>
+            <a href="#">ไดเรกทอรี</a>
+            <a href="#">การตั้งค่า</a>
+        </nav>
         
-        if(action == "login"){
-            if(id.value == ""){
-                id.setCustomValidity('กรุณาใส่ไอดี');
-            }
-            else if(pass.value == ""){
-                pass.setCustomValidity('กรุณาใส่รหัสผ่าน');
+        <p>© 2022 Pigeon, Inc.</p>
+    </div>
+    <script>
+        function validate(action) {
+            var id = document.getElementById("id");
+            id.value = id.value.trim();
+            id.setCustomValidity('');
+            var pass = document.getElementById("pass");
+            pass.value = pass.value.trim();
+            pass.setCustomValidity('');
+            
+            if(action == "login"){
+                if(id.value == ""){
+                    id.setCustomValidity('กรุณาใส่ไอดี');
+                }
+                else if(pass.value == ""){
+                    pass.setCustomValidity('กรุณาใส่รหัสผ่าน');
+                }
             }
         }
-    }
-</script>
-
-    
+    </script>
 </body>
 </html>
