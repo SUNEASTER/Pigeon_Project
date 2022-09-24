@@ -1,9 +1,10 @@
 <?php
-class LoginController //'registerForm','register','loginForm','login'
+class LoginController
 {
     public function loginForm(){
         $id = "";
         $warning = "";
+        
         if(isset($_SESSION["id"]))
             $id = $_SESSION["id"];
         
@@ -24,28 +25,71 @@ class LoginController //'registerForm','register','loginForm','login'
     public function login(){
         $id = $_GET['id'];
         $password = $_GET['pass'];
+        $returnURL = "?controller=login&action=loginForm";
+
+        $user = User::getByUserId($id);
+        if( is_null($user) ){
+            $_SESSION["error"] = 1;
+            $_SESSION["id"] = $id;
+            header("Location: $returnURL");
+            die();
+        }
+        $user = User::getByUserIdAndPassword($id, $password);
+        if( is_null($user) ) {
+            $_SESSION["error"] = 2;
+            $_SESSION["id"] = $id;
+            header("Location: $returnURL");
+            die();
+        }
+        $_SESSION["openID"] = $user->Open_Id;
+        header("Location: ?controller=home&action=index");
+        die();
+    }
+
+    public function signupForm(){
+        $id = "";
+        $password = "";
+        $email = "";
+        $error = "";
+        if(isset($_SESSION["id"]))
+            $id = $_SESSION["id"];
+        if(isset($_SESSION["password"]))
+            $password = $_SESSION["password"];
+        if(isset($_SESSION["email"]))
+            $email = $_SESSION["email"];
+        session_unset();
+
+        require_once("./views/login/signup.php");
+    }
+
+    public function signup(){
+        $id = $_GET['id'];
+        $password = $_GET['pass'];
+        $email = $_GET['email'];
+        $error = 1;
+
+        $user = User::getByUserId($id);
+        if( !is_null($user) ) {
+            $error = $error * 2;
+        }
+        $user = User::getByEmail($email);
+        if( !is_null($user) ) {    
+            $error = $error * 3;
+        }
         
-        $user = User::getByOpenID($id);
-        echo("<br/>");
-        echo($user->Open_Id);
-        echo("<br/>");
-        echo "test";
-        // $returnURL = "?controller=login&action=loginForm";
-        // if( is_null($user) ){
-        //     $_SESSION["error"] = 1;
-        //     $_SESSION["id"] = $id;
-        //     header("Location: $returnURL");
-        //     die();
-        // }
-        // else if($user->Password != $password) {
-        //     $_SESSION["error"] = 2;
-        //     $_SESSION["id"] = $id;
-        //     header("Location: $returnURL");
-        //     die();
-        // }
-        // $_SESSION["openID"] = $user->Open_Id;
-        // header("Location: ?controller=home&action=index");
-        // die();
+        if($error == 1) {
+            User::addUser($id, $password, $email);
+            header("Location: ?controller=login&action=loginForm");
+            die();
+        }
+        else {
+            $_SESSION["id"] = $id;
+            $_SESSION["password"] = $password;
+            $_SESSION["email"] = $email;
+            $_SESSION["error"] = $error;
+            header("Location: ?controller=login&action=signupForm");
+            die();
+        }
     }
 
     public function logout(){
@@ -54,10 +98,5 @@ class LoginController //'registerForm','register','loginForm','login'
         die();
     }
 
-    public function back(){
-        header("Location: ?");
-        die();
-    }
-   
 }
 ?>

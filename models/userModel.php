@@ -11,7 +11,7 @@
         public function __construct($Open_Id, $User_Id, $Password, $Email, $Count){
             $this->Open_Id = $Open_Id;
             $this->User_Id = $User_Id;
-            $this->Password = $Password;
+            $this->Password = null;
             $this->Email = $Email;
             $this->Count = $Count;
         }
@@ -43,7 +43,7 @@
             }
         }
 
-        public static function getByUserId($UserId, $Password){
+        public static function getByUserIdAndPassword($UserId, $Password){
             try {
                 require("connectionConnect.php");
                 $tsql = "SELECT TOP(1) * FROM useraccount where userId = '$UserId' AND password = '$Password'";
@@ -124,12 +124,12 @@
             }
         }
 
-        public static function addUser($UserId, $Password){
+        public static function addUser($UserId, $Password, $Email){
             try{
                 require("connectionConnect.php");
 
                 $tsql = "INSERT INTO useraccount (userId, [password], email)"
-                ." VALUES ('test', '1234', 'asd@gmail.com')";
+                ." VALUES ('$UserId', '$Password', '$Email')";
                 $insertUser = sqlsrv_query($conn, $tsql);
                 if($insertUser == FALSE)
                     die(FormatErrors( sqlsrv_errors()));

@@ -1,6 +1,6 @@
 <?php
 
-$controllers = array(   'login'=>['loginForm','back','login'],//'logout','back'],
+$controllers = array(   'login'=>['loginForm','login','logout','signupForm','signup'],
                         'home'=>['index','error'],
                         // 'page'=>['error'],
                         // 'checkRG'=>['index','detail','confirmApprove','confirmDisapprove','approve','disapprove'],
