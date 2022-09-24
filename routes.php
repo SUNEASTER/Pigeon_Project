@@ -16,6 +16,7 @@ function call($controller, $action){
                                 break;
 
         case "home":            require_once("./models/userModel.php");
+                                require_once("./models/tagModel.php");
                                 $controller = new HomeController;
                                 break;
 
