@@ -19,7 +19,7 @@ class LoginController
         }
         session_unset();
 
-        require_once("./views/login/login.php");
+        require_once("./views/login/loginNew.php");
     }
 
     public function login(){

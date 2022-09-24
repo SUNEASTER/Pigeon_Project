@@ -101,7 +101,7 @@
    <div class="flex-container" >
 
        <div class= "pic"> 
-            <img style="height: 100%; width: 100%; margin-left: 0px;" src="./resources/logologin.jpg" alt="cat">
+            <img style="height: 100%; width: 100%; margin-left: 0px;" src="../../resources/logologin.jpg" alt="cat">
        </div>
        
        <div class ="from">
@@ -114,7 +114,7 @@
                     <br>
                     <br>
                     <div class="form-group"  >
-                        <input style="border-color:black; border-width: 3px;" type="text" id="id" name="id" placeholder="ID" class="form-control form-control-lg" value="<?php echo $id; ?>" title="Eight or more characters" />
+                        <input style="border-color:black; border-width: 3px;" type="text" id="id" name="id" placeholder="ID" class="form-control form-control-lg" title="Eight or more characters" />
                     </div>
                     <br>
                     <br>
@@ -123,11 +123,7 @@
                     </div>
                     <br>
                     <input type="hidden" name="controller" value="login"/>
-                    
-                    <div class="form-group" >
-                        <p id="warning" <?php if($warning == null || $warning == "") echo "style= visibility:hidden"; ?>><b ><?php echo $warning," !";?> </b></p>
-                    </div>
-
+                
                     <div class="button_class" >
                         <button class="button1" type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
                         <button class="button2" type="submit" name="action" value="back" onclick="validate(this.value)">หน้าหลัก</button>
