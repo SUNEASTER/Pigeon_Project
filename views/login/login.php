@@ -101,11 +101,9 @@
                 <div class="content">
                     <input type="text" id="id" name="id" placeholder="ไอดี">
                     <input type="password" id="pass" name="pass" placeholder="รหัสผ่าน">
-                    <button type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
-                </div>
-                <div class="form-group" >
                     <!-- <b <?php if($warning == "") echo " style= visibility:hidden";?>><p id="warning" ><?php echo $warning;?> !</p></b> -->
                     <b><p id="warning">แจ้งเตือน!</p></b>
+                    <button type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
                 </div>
                 <input type="hidden" name="controller" value="login"/>
                 <div class="content" style="padding-top: 100px;">
