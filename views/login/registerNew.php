@@ -35,7 +35,7 @@
         border: 1px solid #058dc1;
     }
 
-    input[type=submit] {
+    button[type=submit] {
         width: 80%;
         background-color: #0394c9;
         color: white;
@@ -46,7 +46,7 @@
         cursor: pointer;
     }
 
-    input[type=submit]:hover {
+    button[type=submit]:hover {
         background-color: #0386ba;
     }
 
@@ -114,10 +114,10 @@
                     <br>
                     <b style="color: black;">รวมถึง</b> <b>การใช้คุกกี้</b>
                     <br>
-                    <input type="submit" value="สมัครสมาชิก" name="action" value="signupForm" onclick="validate(this.value)">
+                    <button type="submit" name="action" value="signupForm" onclick="validate(this.value)">สมัครสมาชิก</button>
                 </div>
                 <div class="content" style="padding-top: 20px;">
-                    <input class="regis" type="submit" value="เข้าสู่ระบบ" name="action" value="login" onclick="validate(this.value)">
+                    <button class="regis" type="submit" name="action" value="login" onclick="validate(this.value)">เข้าสู่ระบบ</button>
                 </div>
             </div>
         </div>
