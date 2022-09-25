@@ -112,4 +112,19 @@
             }
         }
 
+        public static function deleteComment($CommentId){
+            try{
+                require("connectionConnect.php");
+
+                $tsql = "UPDATE comment SET status = 0, updateDate = GETDATE() WHERE commentId = $CommentId";
+                $updatePost = sqlsrv_query($conn, $tsql);
+                if($updatePost == FALSE)
+                    die(FormatErrors( sqlsrv_errors()));
+                sqlsrv_free_stmt($updatePost);
+                sqlsrv_close($conn);
+            }
+            catch(Exception $e){
+            }
+        }
+
     }

@@ -113,4 +113,19 @@
             }
         }
 
+        public static function deletePost($PostId){
+            try{
+                require("connectionConnect.php");
+
+                $tsql = "UPDATE post SET status = 0, updateDate = GETDATE() WHERE postId = $PostId";
+                $updatePost = sqlsrv_query($conn, $tsql);
+                if($updatePost == FALSE)
+                    die(FormatErrors( sqlsrv_errors()));
+                sqlsrv_free_stmt($updatePost);
+                sqlsrv_close($conn);
+            }
+            catch(Exception $e){
+            }
+        }
+
     }

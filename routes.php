@@ -2,10 +2,7 @@
 
 $controllers = array(   'login'=>['loginForm','login','logout','signupForm','signup'],
                         'home'=>['index','error'],
-                        'page'=>['post'],
-                        // 'checkRG'=>['index','detail','confirmApprove','confirmDisapprove','approve','disapprove'],
-                        // 'registration'=>['index','register','reapply'],
-                        // 'checkStatus'=>['index','detail'],
+                        'page'=>['index','addPost','addComment','deletePost','deleteComment'],
                         );
 function call($controller, $action){
     require_once("controllers/".$controller."_controller.php");
