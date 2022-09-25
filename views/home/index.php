@@ -204,6 +204,16 @@
     .post__headerText h3 {
         font-size: 15px;
         margin-bottom: 5px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .post__headerText__showbox{
+        width: 70px;
+        border-radius: 10px; 
+        background: gray;
+        text-align: center;
+        background-color: var(--twitter-background);
     }
     
     .post__headerDescription {
@@ -266,6 +276,12 @@
         font-weight: 800;
     }
 
+    .dropdown{
+        width: 150px;
+        margin-left: 20px;
+        margin-top: 10px;
+    }
+
     textarea {
         border: none;
         outline: none;
@@ -299,27 +315,27 @@
 
       <!-- tweetbox starts -->
       <div class="tweetBox">
+
         <form>
-            <div class="btn-group">
-                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Small button
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
+            <div class="dropdown">
+                <select class="form-select" name="tagID">
+                    <?php foreach($tagList as $tag){ ?>
+                        <option value="<?php echo $tag->Tag_Id;?>" ><?php echo $tag->Name; ?></option>
+                    <?php }?>
+                </select>
             </div>
             <div class="tweetbox__input">
                 <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"/>
-                <input type="text" placeholder="What's happening?" />
+                <input type="text" id="content" name="content" placeholder="What's happening?" />
             </div>
-            <button class="tweetBox__tweetButton">Tweet</button>
+            <input type="hidden" name="controller" value="post"/>
+            <input type="hidden" name="openID" value= <?php echo $user->Open_Id; ?>/>
+            <button class="tweetBox__tweetButton" name="action" value="addPost">Post</button>
         </form>
       </div>
       <!-- tweetbox ends -->
     
-      <?php for( $i = 0 ; $i < 10 ; $i++){ ?>
+      <?php foreach($postList as $post){ ?>
       <!-- post starts -->
       <div class="post">
         <div class="post__avatar">
@@ -330,15 +346,14 @@
         <div class="post__body">
           <div class="post__header">
             <div class="post__headerText">
-              <h3>
-                Somanath Goudar
-                <span class="post__headerSpecial"
-                  ><span class="material-icons post__badge"> verified </span>@somanathg</span
-                >
-              </h3>
+                <div class="post__headerText__showbox"> <p><?php echo $post->Tag->Name; ?></p> </div>
+                <?php if ($user->Open_Id == $post->UserOpen_Id) { ?>
+                    <div class="post__headerText__showbox"> <p> ของฉัน </p> </div>  
+                <?php }?>
+                
             </div>
             <div class="post__headerDescription">
-              <p> Lorem300</p>
+              <p> <?php echo $post->Content; ?></p>
             </div>
           </div>
         
