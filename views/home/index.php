@@ -201,19 +201,36 @@
         color: gray;
     }
     
-    .post__headerText h3 {
+    .post__headerText {
+        
         font-size: 15px;
         margin-bottom: 5px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
     }
+
+    .post__tag {
+       
+       font-size: 15px;
+       margin-bottom: 5px;
+       display: flex;
+       flex-direction: row;
+   }
 
     .post__headerText__showbox{
         width: 70px;
+        height: 30px;
+        padding-top: 3px;
         border-radius: 10px; 
         background: gray;
         text-align: center;
         background-color: var(--twitter-background);
+        margin-right: 10px;
+    }
+
+    #timebox{
+        margin-right: 10px;
     }
     
     .post__headerDescription {
@@ -346,11 +363,15 @@
         <div class="post__body">
           <div class="post__header">
             <div class="post__headerText">
-                <div class="post__headerText__showbox"> <p><?php echo $post->Tag->Name; ?></p> </div>
-                <?php if ($user->Open_Id == $post->UserOpen_Id) { ?>
-                    <div class="post__headerText__showbox"> <p> ของฉัน </p> </div>  
-                <?php }?>
-                
+                <div class="post__tag">
+                    <div class="post__headerText__showbox"> <p><?php echo $post->Tag->Name; ?></p> </div>
+                    <?php if ($user->Open_Id == $post->UserOpen_Id) { ?>
+                        <div class="post__headerText__showbox"> <p> ของฉัน </p> </div>  
+                    <?php }?>
+                </div>
+                <div class="post__time">
+                    <div id="timebox" class="post__headerText__showbox"> <p><?php echo "13.00" ?></p> </div>
+                </div>
             </div>
             <div class="post__headerDescription">
               <p> <?php echo $post->Content; ?></p>
@@ -371,11 +392,11 @@
 
 
     <div class="widgets">
-
+        <!--                    
         <div class="widgets__input">
             <span class="material-icons widgets__searchIcon"> search </span>
             <input type="text" placeholder="Search Twitter" />
-        </div>
+        </div> -->
 
         <div class="widgets__widgetContainer">       
             <?php foreach($tagList as $tag){ ?>
