@@ -12,7 +12,9 @@
       integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
       crossorigin="anonymous"
     />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    
     <style>
     * {
         margin: 0;
@@ -207,11 +209,13 @@
     .post__headerDescription {
         margin-bottom: 10px;
         font-size: 15px;
+        word-wrap: break-word;
     }
     
     .post__body {
         flex: 1;
         padding: 10px;
+        width: 450px;
     }
     
     .post__avatar {
@@ -221,8 +225,15 @@
     /* widgets */
     .widgets {
         flex: 0.3;
+        border-right: 1px solid var(--twitter-background);
+        min-width: fit-content;
+        overflow-y: scroll;
     }
     
+    .widgets::-webkit-scrollbar {
+        display: none;
+    }
+
     .widgets__input {
         display: flex;
         align-items: center;
@@ -254,6 +265,11 @@
         font-size: 18px;
         font-weight: 800;
     }
+
+    textarea {
+        border: none;
+        outline: none;
+    }
     </style>
 
   </head>
@@ -263,43 +279,14 @@
       <i class="fab fa-twitter"></i>
       <div class="sidebarOption active">
         <span class="material-icons"> home </span>
-        <h2>Home</h2>
+        <h2>รายงาน</h2>
       </div>
 
       <div class="sidebarOption">
         <span class="material-icons"> search </span>
-        <h2>Explore</h2>
+        <h2>โพสต์ของฉัน</h2>
       </div>
 
-      <div class="sidebarOption">
-        <span class="material-icons"> notifications_none </span>
-        <h2>Notifications</h2>
-      </div>
-
-      <div class="sidebarOption">
-        <span class="material-icons"> mail_outline </span>
-        <h2>Messages</h2>
-      </div>
-
-      <div class="sidebarOption">
-        <span class="material-icons"> bookmark_border </span>
-        <h2>Bookmarks</h2>
-      </div>
-
-      <div class="sidebarOption">
-        <span class="material-icons"> list_alt </span>
-        <h2>Lists</h2>
-      </div>
-
-      <div class="sidebarOption">
-        <span class="material-icons"> perm_identity </span>
-        <h2>Profile</h2>
-      </div>
-
-      <div class="sidebarOption">
-        <span class="material-icons"> more_horiz </span>
-        <h2>More</h2>
-      </div>
       <button class="sidebar__tweet">Tweet</button>
     </div>
     <!-- sidebar ends -->
@@ -313,25 +300,31 @@
       <!-- tweetbox starts -->
       <div class="tweetBox">
         <form>
-          <div class="tweetbox__input">
-            <img
-              src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-              alt=""
-            />
-            <input type="text" placeholder="What's happening?" />
-          </div>
-          <button class="tweetBox__tweetButton">Tweet</button>
+            <div class="btn-group">
+                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Small button
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+            <div class="tweetbox__input">
+                <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"/>
+                <input type="text" placeholder="What's happening?" />
+            </div>
+            <button class="tweetBox__tweetButton">Tweet</button>
         </form>
       </div>
       <!-- tweetbox ends -->
-
+    
+      <?php for( $i = 0 ; $i < 10 ; $i++){ ?>
       <!-- post starts -->
       <div class="post">
         <div class="post__avatar">
-          <img
-            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-            alt=""
-          />
+
+            <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png" alt=""/>
         </div>
 
         <div class="post__body">
@@ -345,13 +338,10 @@
               </h3>
             </div>
             <div class="post__headerDescription">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
+              <p> Lorem300</p>
             </div>
           </div>
-          <img
-            src="https://www.focus2move.com/wp-content/uploads/2020/01/Tesla-Roadster-2020-1024-03.jpg"
-            alt=""
-          />
+        
           <div class="post__footer">
             <span class="material-icons"> repeat </span>
             <span class="material-icons"> favorite_border </span>
@@ -360,71 +350,28 @@
         </div>
       </div>
       <!-- post ends -->
-
-      <!-- post starts -->
-      <div class="post">
-        <div class="post__avatar">
-          <img
-            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
-            alt=""
-          />
-        </div>
-
-        <div class="post__body">
-          <div class="post__header">
-            <div class="post__headerText">
-              <h3>
-                Somanath Goudar
-                <span class="post__headerSpecial"
-                  ><span class="material-icons post__badge"> verified </span>@somanathg</span
-                >
-              </h3>
-            </div>
-            <div class="post__headerDescription">
-              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-          </div>
-          
-          <div class="post__footer">
-            <span class="material-icons"> repeat </span>
-            <span class="material-icons"> favorite_border </span>
-            <span class="material-icons"> publish </span>
-          </div>
-        </div>
-      </div>
-      <!-- post ends -->
+      <?php }?>
     </div>
     <!-- feed ends -->
 
-    <!-- widgets starts -->
-    <div class="widgets">
-      <div class="widgets__input">
-        <span class="material-icons widgets__searchIcon"> search </span>
-        <input type="text" placeholder="Search Twitter" />
-      </div>
 
-      <div class="widgets__widgetContainer">
-        <h2>What's happening?</h2>
-        <blockquote class="twitter-tweet">
-          <p lang="en" dir="ltr">
-            Sunsets don&#39;t get much better than this one over
-            <a href="https://twitter.com/GrandTetonNPS?ref_src=twsrc%5Etfw">@GrandTetonNPS</a>.
-            <a href="https://twitter.com/hashtag/nature?src=hash&amp;ref_src=twsrc%5Etfw"
-              >#nature</a
-            >
-            <a href="https://twitter.com/hashtag/sunset?src=hash&amp;ref_src=twsrc%5Etfw"
-              >#sunset</a
-            >
-            <a href="http://t.co/YuKy2rcjyU">pic.twitter.com/YuKy2rcjyU</a>
-          </p>
-          &mdash; US Department of the Interior (@Interior)
-          <a href="https://twitter.com/Interior/status/463440424141459456?ref_src=twsrc%5Etfw"
-            >May 5, 2014</a
-          >
-        </blockquote>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-      </div>
+    <div class="widgets">
+
+        <div class="widgets__input">
+            <span class="material-icons widgets__searchIcon"> search </span>
+            <input type="text" placeholder="Search Twitter" />
+        </div>
+
+        <div class="widgets__widgetContainer">       
+            <?php foreach($tagList as $tag){ ?>
+                <div class="sidebarOption">
+                <span class="material-icons"> notifications_none </span>
+                <h2><?php echo $tag->Name; ?></h2>
+            </div>
+            <?php }?>
+        </div>
+
     </div>
-    <!-- widgets ends -->
+
   </body>
 </html>
