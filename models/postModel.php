@@ -30,7 +30,8 @@
                 $this->Status = "ปกติ";
             }
             $this->LastOwnerSeen = $LastOwnerSeen;
-            $this->Tag_Id = Tag::getByTagId($Tag_Id);
+            $this->Tag = Tag::getByTagId($Tag_Id);
+
         }
 
         public static function getAll(){
