@@ -2,7 +2,7 @@
 
 $controllers = array(   'login'=>['loginForm','login','logout','signupForm','signup'],
                         'home'=>['index','error'],
-                        // 'page'=>['error'],
+                        'page'=>['post'],
                         // 'checkRG'=>['index','detail','confirmApprove','confirmDisapprove','approve','disapprove'],
                         // 'registration'=>['index','register','reapply'],
                         // 'checkStatus'=>['index','detail'],
@@ -15,19 +15,25 @@ function call($controller, $action){
                                 $controller = new LoginController();
                                 break;
 
-        case "home":            require_once("./models/userModel.php");
+        case "home":            if(!isset($_SESSION["openID"])){
+                                    header("Location: ?controller=login&action=loginForm");
+                                    die();
+                                }
+                                require_once("./models/userModel.php");
+                                require_once("./models/postModel.php");
                                 require_once("./models/tagModel.php");
                                 $controller = new HomeController;
                                 break;
 
-        // case "checkRG":         if(!isset($_SESSION["role"]) || $_SESSION["role"] != "Teacher"){
-        //                             header("Location: ?controller=login&action=loginForm");
-        //                             die();
-        //                         }
-        //                         require_once("./models/requestFormModel.php");
-        //                         require_once("./models/userModel.php");
-        //                         $controller = new CheckRGController();
-        //                         break;
+         case "post":        if(!isset($_SESSION["openID"])){
+                                    header("Location: ?controller=login&action=loginForm");
+                                    die();
+                                }
+                                require_once("./models/userModel.php");
+                                require_once("./models/postModel.php");
+                                require_once("./models/commentModel.php");
+                                $controller = new PostController();
+                                break;
 
         // case "registration":    if(!isset($_SESSION["role"]) || $_SESSION["role"] != "Student"){
         //                             header("Location: ?controller=login&action=loginForm");

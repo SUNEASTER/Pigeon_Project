@@ -1,13 +1,16 @@
 <?php 
-class HomeController
+class PostController
 {
     public function index(){
         $openID = "";
+        $postId = "";
         if(isset($_SESSION['openID']))
             $openID = $_SESSION['openID'];
+        if(isset($_SESSION['postId']))
+            $openID = $_SESSION['postId'];
         $user = User::getByOpenID($openID);
-        $tagList = Tag::getAll();
-        $postList = Post::getAll();
+        $post = Post::getByPostId($postId);
+        $commentList = Comment::getByPostId($postId);
         require_once("./views/home/index.php");
     }
 

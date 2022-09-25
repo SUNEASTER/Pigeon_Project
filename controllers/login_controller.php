@@ -42,6 +42,7 @@ class LoginController
             die();
         }
         $_SESSION["openID"] = $user->Open_Id;
+        $_SESSION["role"] = $user->Role;
         header("Location: ?controller=home&action=index");
         die();
     }

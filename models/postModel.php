@@ -33,11 +33,11 @@
             $this->Tag_Id = Tag::getByTagId($Tag_Id);
         }
 
-        public static function getAll($Post_Id){
+        public static function getAll(){
             try {
                 $PostList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM postId";
+                $tsql = "SELECT * FROM post";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
@@ -69,7 +69,7 @@
         public static function getByPostId($Post_Id){
             try {
                 require("connectionConnect.php");
-                $tsql = "SELECT TOP(1) * FROM postId WHERE postId = $Post_Id";
+                $tsql = "SELECT TOP(1) * FROM post WHERE postId = $Post_Id";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
                     die(FormatErrors(sqlsrv_errors()));

@@ -5,12 +5,14 @@
         public $User_Id;
         public $Password;
         public $Email;
+        public $Role;
 
-        public function __construct($Open_Id, $User_Id, $Password, $Email){
+        public function __construct($Open_Id, $User_Id, $Password, $Email, $Role){
             $this->Open_Id = $Open_Id;
             $this->User_Id = $User_Id;
             $this->Password = $Password;
             $this->Email = $Email;
+            $this->Role = $Role;
         }
 
         public static function getByOpenID($Open_ID){
@@ -27,13 +29,14 @@
                     $User_Id = $row['userId'];
                     $Password = null;
                     $Email = $row['email'];
+                    $Role = $row['role'];
                     $Count++;
                 }
                 sqlsrv_free_stmt($getUser);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new User($Open_Id, $User_Id, $Password, $Email);
+                return new User($Open_Id, $User_Id, $Password, $Email, $Role);
             }
             catch(Exception $e) {
                 return null;
@@ -54,13 +57,14 @@
                     $User_Id = $row['userId'];
                     $Password = null;
                     $Email = $row['email'];
+                    $Role = $row['role'];
                     $Count++;
                 }
                 sqlsrv_free_stmt($getUser);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new User($Open_Id, $User_Id, $Password, $Email);
+                return new User($Open_Id, $User_Id, $Password, $Email, $Role);
             }
             catch(Exception $e) {
                 return null;
@@ -81,13 +85,14 @@
                     $User_Id = $row['userId'];
                     $Password = null;
                     $Email = $row['email'];
+                    $Role = $row['role'];
                     $Count++;
                 }
                 sqlsrv_free_stmt($getUser);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new User($Open_Id, $User_Id, $Password, $Email);
+                return new User($Open_Id, $User_Id, $Password, $Email, $Role);
             }
             catch(Exception $e) {
                 return null;
@@ -108,13 +113,14 @@
                     $User_Id = $row['userId'];
                     $Password = null;
                     $Email = $row['email'];
+                    $Role = $row['role'];
                     $Count++;
                 }
                 sqlsrv_free_stmt($getUser);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new User($Open_Id, $User_Id, $Password, $Email);
+                return new User($Open_Id, $User_Id, $Password, $Email, $Role);
             }
             catch(Exception $e) {
                 return null;
