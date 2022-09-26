@@ -37,7 +37,7 @@
                 $CommentList = [];
                 require("connectionConnect.php");
                 $tsql = "SELECT * FROM comment WHERE postId = $Post_Id "
-                ."AND status = 1 OR ( $ChkReport = 1 AND status = 2)"
+                ."AND status = 1 OR ($ChkReport = 1 AND status = 2)"
                 ."ORDER BY createDate DESC";
                 $getComment = sqlsrv_query($conn, $tsql);
                 if ($getComment == FALSE)

@@ -39,7 +39,7 @@
                 $PostList = [];
                 require("connectionConnect.php");
                 $tsql = "SELECT * FROM post "
-                ."WHERE status = 1 OR ( $ChkReport = 1 AND status = 2)"
+                ."WHERE ($ChkReport = 0 AND status = 1) OR ($ChkReport = 1 AND status = 2)"
                 ."AND (tagId = $Tag_Id OR $Tag_Id = 0) "
                 ."ORDER BY createDate DESC";
                 $getPost = sqlsrv_query($conn, $tsql);
