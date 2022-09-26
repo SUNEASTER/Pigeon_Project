@@ -4,13 +4,14 @@ class PostController
     public function index(){
         $openID = "";
         $postId = "";
+        $chkReport = 0;
         if(isset($_SESSION['openID']))
             $openID = $_SESSION['openID'];
         if(isset($_GET['post']))
             $postId = $_GET['post'];
         $user = User::getByOpenID($openID);
-        $post = Post::getByPostId($postId);
-        $commentList = Comment::getByPostId($postId);
+        $post = Post::getByPostId($postId, $chkReport);
+        $commentList = Comment::getByPostId($postId, $chkReport);
         require_once("./views/home/index.php");
     }
 
@@ -50,28 +51,34 @@ class PostController
         die();
     }
 
-    public function deletePost(){
+    public function updatePost(){
         $postID = "";
+        $status = 1;
 
         if(isset($_GET['postID']))
             $postID = $_GET['postID'];
+        if(isset($_GET['status']))
+            $status = $_GET['status'];
 
-        Post::deletePost($postID);
+        Post::updateStatus($postID, $status);
 
         header("Location: ?controller=post&action=index&post=".$postID);
         die();
     }
 
-    public function deleteComment(){
+    public function updateComment(){
         $postID = "";
         $commentID = "";
+        $status = 1;
 
         if(isset($_GET['postID']))
             $postID = $_GET['postID'];
         if(isset($_GET['commentID']))
             $commentID = $_GET['commentID'];
+        if(isset($_GET['status']))
+            $status = $_GET['status'];
 
-        Comment::deleteComment($commentID);
+        Comment::updateStatus($commentID, $status);
 
         header("Location: ?controller=post&action=index&post=".$postID);
         die();

@@ -2,7 +2,7 @@
 
 $controllers = array(   'login'=>['loginForm','login','logout','signupForm','signup'],
                         'home'=>['index','error'],
-                        'post'=>['index','addPost','addComment','deletePost','deleteComment'],
+                        'post'=>['index','addPost','addComment','updatePost','updateComment'],
                         );
 function call($controller, $action){
     require_once("controllers/".$controller."_controller.php");
