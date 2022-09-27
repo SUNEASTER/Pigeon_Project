@@ -399,15 +399,28 @@
         </div> -->
 
         <div class="widgets__widgetContainer">       
-            <?php foreach($tagList as $tag){ ?>
-                <div class="sidebarOption">
-                <span class="material-icons"> notifications_none </span>
-                <h2><?php echo $tag->Name; ?></h2>
-            </div>
-            <?php }?>
+            <form action="" method="GET" id="category_form" name="category_form">
+                <?php foreach($tagList as $tag){ ?>
+                    <div class="sidebarOption" onclick="submit_category('<?php echo $tag->Tag_Id; ?>')">
+                        <span class="material-icons"> notifications_none </span>
+                        <h2><?php echo $tag->Name; ?></h2>
+                    </div>
+                <?php }?>
+                <input type="hidden" name="controller" value="home">
+                <input type="hidden" name="action" value="index">
+                <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
+                <input type="hidden" name="tag" id="tag_id" value="">
+            </form>
         </div>
 
     </div>
 
   </body>
 </html>
+
+<script>
+    function submit_category(tag){
+        document.getElementById("tag_id").value = tag;
+        document.forms['category_form'].submit();
+    }
+</script>
