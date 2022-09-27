@@ -8,6 +8,7 @@
         public $UserOpen_Id;
         public $CreateDate;
         public $UpdateDate;
+        public $Status;
         public $StatusName;
         public $CommentNo;
 
@@ -18,6 +19,7 @@
             $this->UserOpen_Id = $UserOpen_Id;
             $this->CreateDate = $CreateDate;
             $this->UpdateDate = $UpdateDate;
+            $this->Status = $Status;
             $this->CommentNo = $CommentNo;
             if($Status == 2){
                 $this->Status = "อยู่ระหว่างตรวจสอบ";
@@ -30,11 +32,13 @@
             }
         }
 
-        public static function getByPostId($Post_Id){
+        public static function getByPostId($Post_Id, $ChkReport){
             try {
                 $CommentList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM comment WHERE postId = $Post_Id";
+                $tsql = "SELECT * FROM comment WHERE postId = $Post_Id "
+                ."AND status = 1 OR ($ChkReport = 1 AND status = 2)"
+                ."ORDER BY createDate DESC";
                 $getComment = sqlsrv_query($conn, $tsql);
                 if ($getComment == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
@@ -112,11 +116,11 @@
             }
         }
 
-        public static function deleteComment($CommentId){
+        public static function updateStatus($CommentId, $Status){
             try{
                 require("connectionConnect.php");
 
-                $tsql = "UPDATE comment SET status = 0, updateDate = GETDATE() WHERE commentId = $CommentId";
+                $tsql = "UPDATE comment SET status = $Status, updateDate = GETDATE() WHERE commentId = $CommentId";
                 $updatePost = sqlsrv_query($conn, $tsql);
                 if($updatePost == FALSE)
                     die(FormatErrors( sqlsrv_errors()));

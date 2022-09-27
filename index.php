@@ -11,7 +11,7 @@ else{
 }?>
 
 <html>
-<?php echo "controller = ".$controller.", action = ".$action;?>
+
 <?php require_once("./routes.php");?>
 
 </html>

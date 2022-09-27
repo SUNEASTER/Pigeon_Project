@@ -7,11 +7,10 @@
         public $UserOpen_Id;
         public $CreateDate;
         public $UpdateDate;
+        public $Status;
         public $StatusName;
         public $LastOwnerSeen;
         public $Tag;
-
-
 
         public function __construct($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $LastOwnerSeen, $Tag_Id){
             require_once("./models/tagModel.php");
@@ -20,6 +19,7 @@
             $this->UserOpen_Id = $UserOpen_Id;
             $this->CreateDate = $CreateDate;
             $this->UpdateDate = $UpdateDate;
+            $this->Status = $Status;
             if($Status == 2){
                 $this->Status = "อยู่ระหว่างตรวจสอบ";
             }
@@ -34,11 +34,14 @@
 
         }
 
-        public static function getAll(){
+        public static function getPost($Tag_Id, $ChkReport){
             try {
                 $PostList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM post";
+                $tsql = "SELECT * FROM post "
+                ."WHERE ($ChkReport = 0 AND status = 1) OR ($ChkReport = 1 AND status = 2)"
+                ."AND (tagId = $Tag_Id OR $Tag_Id = 0) "
+                ."ORDER BY createDate DESC";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
@@ -67,10 +70,11 @@
             }
         }
 
-        public static function getByPostId($Post_Id){
+        public static function getByPostId($Post_Id, $ChkReport){
             try {
                 require("connectionConnect.php");
-                $tsql = "SELECT TOP(1) * FROM post WHERE postId = $Post_Id";
+                $tsql = "SELECT TOP(1) * FROM post WHERE postId = $Post_Id"
+                ."AND status = 1 OR ( $ChkReport = 1 AND status = 2)";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
@@ -114,11 +118,11 @@
             }
         }
 
-        public static function deletePost($PostId){
+        public static function updateStatus($PostId, $Status){
             try{
                 require("connectionConnect.php");
 
-                $tsql = "UPDATE post SET status = 0, updateDate = GETDATE() WHERE postId = $PostId";
+                $tsql = "UPDATE post SET status = $Status, updateDate = GETDATE() WHERE postId = $PostId";
                 $updatePost = sqlsrv_query($conn, $tsql);
                 if($updatePost == FALSE)
                     die(FormatErrors( sqlsrv_errors()));
