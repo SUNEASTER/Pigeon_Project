@@ -11,7 +11,7 @@ class HomeController
             $tagID = $_GET['tag'];
         $user = User::getByOpenID($openID);
         $tagList = Tag::getAll();
-        $postList = Post::getPost($tagID, $chkReport);
+        $postList = Post::getPost($tagID);
         require_once("./views/home/index.php");
     }
 

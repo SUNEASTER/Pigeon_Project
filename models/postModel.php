@@ -34,13 +34,50 @@
 
         }
 
-        public static function getPost($Tag_Id, $ChkReport){
+        public static function getPost($Tag_Id){
             try {
                 $PostList = [];
                 require("connectionConnect.php");
                 $tsql = "SELECT * FROM post "
-                ."WHERE (($ChkReport = 0 AND status = 1) OR ($ChkReport = 1 AND status = 2))"
+                ."WHERE status = 1 "
                 ."AND (tagId = $Tag_Id OR $Tag_Id = 0) "
+                ."ORDER BY createDate DESC";
+                $getPost = sqlsrv_query($conn, $tsql);
+                if ($getPost == FALSE)
+                    die(FormatErrors(sqlsrv_errors()));
+                $Count = 0;
+                while($row = sqlsrv_fetch_array($getPost, SQLSRV_FETCH_ASSOC))
+                {
+                    $Post_Id = $row['postId'];
+                    $Content = $row['content'];
+                    $UserOpen_Id = $row['userOpenId'];
+                    $CreateDate = $row['createDate'];
+                    $UpdateDate = $row['updateDate'];
+                    $Status = $row['status'];
+                    $LastOwnerSeen = $row['lastOwnerSeen'];
+                    $Tag_Id = $row['tagId'];
+                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $LastOwnerSeen, $Tag_Id);
+                    $Count++;
+                }
+                sqlsrv_free_stmt($getPost);
+                sqlsrv_close($conn);
+                if ($Count == 0)
+                    return null;
+                return $PostList;
+            }
+            catch(Exception $e) {
+                return null;
+            }
+        }
+
+        public static function getByUserOpenId($UserOpenId ,$Tag_Id){
+            try {
+                $PostList = [];
+                require("connectionConnect.php");
+                $tsql = "SELECT * FROM post "
+                ."WHERE status = 1 "
+                ."AND (tagId = $Tag_Id OR $Tag_Id = 0) "
+                ."AND userOpenId = $UserOpenId "
                 ."ORDER BY createDate DESC";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
