@@ -11,6 +11,7 @@ class PostController
             $postId = $_GET['post'];
         $user = User::getByOpenID($openID);
         $post = Post::getByPostId($postId, $chkReport);
+        $tagList = Tag::getAll();
         $commentList = Comment::getByPostId($postId, $chkReport);
         require_once("./views/home/comment.php");
     }

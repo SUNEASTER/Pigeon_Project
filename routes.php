@@ -28,6 +28,7 @@ function call($controller, $action){
                                 }
                                 require_once("./models/userModel.php");
                                 require_once("./models/postModel.php");
+                                require_once("./models/tagModel.php");
                                 require_once("./models/commentModel.php");
                                 $controller = new PostController();
                                 break;
