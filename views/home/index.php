@@ -15,6 +15,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <style>
     * {
         margin: 0;
@@ -143,12 +145,13 @@
         padding: 20px;
     }
     
-    .tweetbox__input input {
+    .tweetbox__input textarea {
         flex: 1;
         margin-left: 20px;
         font-size: 20px;
         border: none;
         outline: none;
+        resize: none;
     }
     
     .tweetBox__tweetButton {
@@ -317,13 +320,32 @@
     }
 
     .btn-circle.btn-sm {
-        width: 40px;
-        height: 40px;
+        width: 54px;
+        height: 35px;
         border-radius: 15px;
         font-size: 12px;
         text-align: center;
     }
 
+    .container_comment_box{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .container_comment_box button{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .container_comment_box button span{
+        margin-top: 2px;
+        color: black;
+    }
+
+    .container_comment_box i{
+        margin-top: 2px;
+        margin-right: 9px;
+    }
     </style>
 
   </head>
@@ -372,11 +394,11 @@
             </div>
             <div class="tweetbox__input">
                 <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"/>
-                <input type="text" id="my_content" name="my_content" placeholder="What's happening?" />
+                <textarea class='scroll' id="content" name="content" maxlength="250"></textarea>
             </div>
             <input type="hidden" name="controller" value="post"/>
             <input type="hidden" name="openID" value= <?php echo $user->Open_Id; ?>/>
-            <button class="tweetBox__tweetButton" name="action" value="addPost">Post</button>
+            <button type="submit" class="tweetBox__tweetButton" name="action" value="addPost">Post</button>
         </form>
       </div>
       <!-- tweetbox ends -->
@@ -410,13 +432,13 @@
           <form action="" method="GET" id="footerpost_form" name="footerpost_form">
             <div class="post__footer">
                 <p></p>
-                <button type="button" class="btn btn-outline-light btn-circle btn-sm" onclick="GoToCommentPage()">
-                    <i class="far fa-comment" style="color: black; font-size: 20px;"></i>
-                </button>
-                
-                <button type="button" class="btn btn-outline-light btn-circle btn-sm"  >
-                    <i class="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "fa fa-trash-o"; else echo "fa fa-flag-o"; ?>" style="color: black; font-size: 20px;"></i>
-                </button>
+                <p></p>
+                <div class="container_comment_box">
+                    <button type="button" class="btn btn-outline-light btn-circle btn-sm" onclick="GoToCommentPage()">
+                        <i class="far fa-comment" style="color: black; font-size: 20px;"></i>
+                        <span>4</span>
+                    </button>
+                </div>              
             </div>
             <input type="hidden" name="controller" value="post">
             <input type="hidden" name="action" value="index">
@@ -458,6 +480,68 @@
 
     </div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="confirm_delete" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">คุณต้องการลบโพสต์นี้หรือไม่</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="post__headerDescription">
+                        <p id=text_confirm_delete></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="button" class="btn btn-danger" style="width: 69.49px; height: 38px;">ลบ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="confirm_report" tabindex="-1" role="dialog" aria-labelledby="confirm_report" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">คุณต้องการรายงานโพสต์นี้หรือไม่</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="post__headerDescription">
+                        <p id=text_confirm_report>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia iure voluptas, accusantium nulla mollitia maiores, blanditiis in dignissimos nam delectus quod recusandae ad officia eaque voluptates, officiis similique qui tempore!</p>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1">
+                            ไม่สุภาพ
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
+                        <label class="form-check-label" for="defaultCheck2">
+                            ล้อเรียน
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="button" class="btn btn-danger" style="width: 69.49px; height: 38px; padding-left: 10px;">รายงาน</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal end -->
+
+
   </body>
 </html>
 
@@ -477,8 +561,19 @@
         document.forms['footerpost_form'].submit();
     }
 
-    document.getElementById('goto_post').onclick = function() {
-        
-        document.getElementById('my_content').focus();
+    document.getElementById('goto_post').onclick = function() {  
+        document.getElementById('content').focus();
     };
+
+    $('#myModal').on('shown.bs.modal', function () {
+        console.log('xxxx');
+        $('#myInput').trigger('focus')
+    })
+
+    $("textarea").each(function () {
+      this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+    }).on("input", function () {
+      this.style.height = 0;
+      this.style.height = (this.scrollHeight) + "px";
+    });
 </script>
