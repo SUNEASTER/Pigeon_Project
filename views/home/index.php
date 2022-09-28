@@ -13,8 +13,8 @@
       crossorigin="anonymous"
     />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
-    
     <style>
     * {
         margin: 0;
@@ -241,7 +241,7 @@
     
     .post__body {
         flex: 1;
-        padding: 10px;
+        padding: 25px 40px 10px 10px;
         width: 450px;
     }
     
@@ -257,6 +257,19 @@
         overflow-y: scroll;
     }
     
+    .logout {
+        width: 80%;
+        background-color: var(--twitter-color);
+        border: none;
+        color: white;
+        font-weight: 900;
+        border-radius: 30px;
+        height: 50px;
+        margin-top: 20px;
+        margin-left: 40px;
+        justify-content: space-between;
+    }
+
     .widgets::-webkit-scrollbar {
         display: none;
     }
@@ -281,8 +294,7 @@
     }
     
     .widgets__widgetContainer {
-        margin-top: 15px;
-        margin-left: 20px;
+        margin: 20px;
         padding: 20px;
         background-color: #f5f8fa;
         border-radius: 20px;
@@ -303,24 +315,41 @@
         border: none;
         outline: none;
     }
+
+    .btn-circle.btn-sm {
+        width: 40px;
+        height: 40px;
+        border-radius: 15px;
+        font-size: 12px;
+        text-align: center;
+    }
+
     </style>
 
   </head>
   <body>
     <!-- sidebar starts -->
     <div class="sidebar">
-      <i class="fab fa-twitter"></i>
-      <div class="sidebarOption active">
-        <span class="material-icons"> home </span>
-        <h2>รายงาน</h2>
-      </div>
+        
+        <i class="fab fa-twitter"></i>
+        <form action="" method="GET" id="page_form" name="page_form">      
+        
+        <input type="hidden" name="controller" value="home">
+        <input type="hidden" name="action" id="sidebar_action" value="">
+        <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
+        
+        <div class="sidebarOption active" onclick="submit_page('home')">
+            <span class="material-icons"> home </span>
+            <h2>หน้าหลัก</h2>
+        </div>
 
-      <div class="sidebarOption">
-        <span class="material-icons"> search </span>
-        <h2>โพสต์ของฉัน</h2>
-      </div>
+        <div class="sidebarOption" onclick="submit_page('mypost')">
+            <span class="material-icons"> search </span>
+            <h2>โพสต์ของฉัน</h2>
+        </div>
 
-      <button class="sidebar__tweet">Tweet</button>
+        </form>  
+        <button class="sidebar__tweet" id="goto_post" >Post</button>
     </div>
     <!-- sidebar ends -->
 
@@ -343,7 +372,7 @@
             </div>
             <div class="tweetbox__input">
                 <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"/>
-                <input type="text" id="content" name="content" placeholder="What's happening?" />
+                <input type="text" id="my_content" name="my_content" placeholder="What's happening?" />
             </div>
             <input type="hidden" name="controller" value="post"/>
             <input type="hidden" name="openID" value= <?php echo $user->Open_Id; ?>/>
@@ -378,11 +407,22 @@
             </div>
           </div>
         
-          <div class="post__footer">
-            <span class="material-icons"> repeat </span>
-            <span class="material-icons"> favorite_border </span>
-            <span class="material-icons"> publish </span>
-          </div>
+          <form action="" method="GET" id="footerpost_form" name="footerpost_form">
+            <div class="post__footer">
+                <p></p>
+                <button type="button" class="btn btn-outline-light btn-circle btn-sm" onclick="GoToCommentPage()">
+                    <i class="far fa-comment" style="color: black; font-size: 20px;"></i>
+                </button>
+                
+                <button type="button" class="btn btn-outline-light btn-circle btn-sm"  >
+                    <i class="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "fa fa-trash-o"; else echo "fa fa-flag-o"; ?>" style="color: black; font-size: 20px;"></i>
+                </button>
+            </div>
+            <input type="hidden" name="controller" value="post">
+            <input type="hidden" name="action" value="index">
+            <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
+            <input type="hidden" name="post" value=<?php echo $post->Post_Id; ?>>
+          </form>
         </div>
       </div>
       <!-- post ends -->
@@ -397,12 +437,15 @@
             <span class="material-icons widgets__searchIcon"> search </span>
             <input type="text" placeholder="Search Twitter" />
         </div> -->
-
+        <form action="" method="GET">
+            <input type="hidden" name="controller" value="login">
+            <button type="submit" class="logout" name="action" value="logout">Log Out</button>
+        </form>
         <div class="widgets__widgetContainer">       
             <form action="" method="GET" id="category_form" name="category_form">
                 <?php foreach($tagList as $tag){ ?>
-                    <div class="sidebarOption" onclick="submit_category('<?php echo $tag->Tag_Id; ?>')">
-                        <span class="material-icons"> notifications_none </span>
+                    <div class="sidebarOption <?php if($tag->Tag_Id == $tagID) echo "active"; ?> " onclick="submit_category('<?php echo $tag->Tag_Id; ?>')">
+                        <span class="fa fa-hashtag material-icons"></span>
                         <h2><?php echo $tag->Name; ?></h2>
                     </div>
                 <?php }?>
@@ -423,4 +466,19 @@
         document.getElementById("tag_id").value = tag;
         document.forms['category_form'].submit();
     }
+    function submit_page(page){
+        if(page == "home")
+            document.getElementById("sidebar_action").value = "index";
+        else if(page == "mypost")
+            document.getElementById("sidebar_action").value = "index";
+        document.forms['page_form'].submit();
+    }
+    function GoToCommentPage(){
+        document.forms['footerpost_form'].submit();
+    }
+
+    document.getElementById('goto_post').onclick = function() {
+        
+        document.getElementById('my_content').focus();
+    };
 </script>

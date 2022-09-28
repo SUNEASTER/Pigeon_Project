@@ -12,7 +12,7 @@ class PostController
         $user = User::getByOpenID($openID);
         $post = Post::getByPostId($postId, $chkReport);
         $commentList = Comment::getByPostId($postId, $chkReport);
-        require_once("./views/home/index.php");
+        require_once("./views/home/postCommentTest.php");
     }
 
     public function addPost(){
