@@ -105,9 +105,9 @@
                 $tsql = "INSERT INTO comment([content], userOpenId, postId, commentNo)"
                 ." VALUES (N'$Content', $UserOpenId, $PostId, (SELECT IIF((SELECT TOP(1) userOpenId FROM post WHERE postId = $PostId) = $UserOpenId, 0," 
                 ." (SELECT ISNULL((SELECT TOP(1) commentNo From comment WHERE postId = $PostId AND userOpenId = $UserOpenId), "
-                ."ISNULL( (SELECT MAX(commentNo)+1 FROM comment WHERE postId = $PostId), 1 ) ) ) ) ) )";
+                ." ISNULL( (SELECT MAX(commentNo)+1 FROM comment WHERE postId = $PostId), 1 ) ) ) ) ) )";
                 $insertComment = sqlsrv_query($conn, $tsql);
-                if($insertPost == FALSE)
+                if($insertComment == FALSE)
                     die(FormatErrors( sqlsrv_errors()));
                 sqlsrv_free_stmt($insertComment);
                 sqlsrv_close($conn);
