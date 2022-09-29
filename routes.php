@@ -3,6 +3,7 @@
 $controllers = array(   'login'=>['loginForm','login','logout','signupForm','signup'],
                         'home'=>['index','error'],
                         'post'=>['index','addPost','addComment','updatePost','updateComment'],
+                        'mypost'=>['index'],
                         );
 function call($controller, $action){
     require_once("controllers/".$controller."_controller.php");
@@ -20,6 +21,16 @@ function call($controller, $action){
                                 require_once("./models/postModel.php");
                                 require_once("./models/tagModel.php");
                                 $controller = new HomeController;
+                                break;
+
+        case "mypost":            if(!isset($_SESSION["openID"])){
+                                    header("Location: ?controller=login&action=loginForm");
+                                    die();
+                                }
+                                require_once("./models/userModel.php");
+                                require_once("./models/postModel.php");
+                                require_once("./models/tagModel.php");
+                                $controller = new MyPostController;
                                 break;
 
          case "post":        if(!isset($_SESSION["openID"])){

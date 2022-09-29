@@ -1,5 +1,5 @@
 <?php 
-class HomeController
+class MyPostController
 {
     public function index(){
         $openID = 0;
@@ -11,12 +11,8 @@ class HomeController
             $tagID = $_GET['tag'];
         $user = User::getByOpenID($openID);
         $tagList = Tag::getAll();
-        $postList = Post::getPost($tagID);
+        $postList = Post::getByUserOpenId($openID, $tagID);
         require_once("./views/home/index.php");
     }
-
-    public function error(){
-        require_once("./views/home/error.php"); 
-    }  
 
 }

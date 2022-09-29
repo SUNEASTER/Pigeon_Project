@@ -2,8 +2,8 @@
 class PostController
 {
     public function index(){
-        $openID = "";
-        $postId = "";
+        $openID = 0;
+        $postId = 0;
         $chkReport = 0;
         if(isset($_SESSION['openID']))
             $openID = $_SESSION['openID'];
@@ -17,9 +17,9 @@ class PostController
     }
 
     public function addPost(){
-        $openID = "";
+        $openID = 0;
         $content = "";
-        $tagID = "";
+        $tagID = 0;
 
         if(isset($_SESSION['openID']))
             $openID = $_SESSION['openID'];
@@ -35,9 +35,9 @@ class PostController
     }
 
     public function addComment(){
-        $openID = "";
+        $openID = 0;
         $content = "";
-        $postID = "";
+        $postID = 0;
 
         if(isset($_SESSION['openID']))
             $openID = $_SESSION['openID'];
@@ -53,7 +53,7 @@ class PostController
     }
 
     public function updatePost(){
-        $postID = "";
+        $postID = 0;
         $status = 1;
 
         if(isset($_GET['postID']))
@@ -68,8 +68,8 @@ class PostController
     }
 
     public function updateComment(){
-        $postID = "";
-        $commentID = "";
+        $postID = 0;
+        $commentID = 0;
         $status = 1;
 
         if(isset($_GET['postID']))
