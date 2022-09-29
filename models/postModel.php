@@ -9,10 +9,9 @@
         public $UpdateDate;
         public $Status;
         public $StatusName;
-        public $LastOwnerSeen;
         public $Tag;
 
-        public function __construct($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $LastOwnerSeen, $Tag_Id){
+        public function __construct($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id){
             require_once("./models/tagModel.php");
             $this->Post_Id = $Post_Id;
             $this->Content = $Content;
@@ -29,7 +28,6 @@
             else {
                 $this->Status = "ปกติ";
             }
-            $this->LastOwnerSeen = $LastOwnerSeen;
             $this->Tag = Tag::getByTagId($Tag_Id);
 
         }
@@ -54,9 +52,8 @@
                     $CreateDate = $row['createDate'];
                     $UpdateDate = $row['updateDate'];
                     $Status = $row['status'];
-                    $LastOwnerSeen = $row['lastOwnerSeen'];
                     $Tag_Id = $row['tagId'];
-                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $LastOwnerSeen, $Tag_Id);
+                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id);
                     $Count++;
                 }
                 sqlsrv_free_stmt($getPost);
@@ -91,9 +88,8 @@
                     $CreateDate = $row['createDate'];
                     $UpdateDate = $row['updateDate'];
                     $Status = $row['status'];
-                    $LastOwnerSeen = $row['lastOwnerSeen'];
                     $Tag_Id = $row['tagId'];
-                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $LastOwnerSeen, $Tag_Id);
+                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id);
                     $Count++;
                 }
                 sqlsrv_free_stmt($getPost);
@@ -124,7 +120,6 @@
                     $CreateDate = $row['createDate'];
                     $UpdateDate = $row['updateDate'];
                     $Status = $row['status'];
-                    $LastOwnerSeen = $row['lastOwnerSeen'];
                     $Tag_Id = $row['tagId'];
                     $Count++;
                 }
@@ -132,7 +127,7 @@
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $LastOwnerSeen, $Tag_Id);
+                return new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id);
             }
             catch(Exception $e) {
                 return null;
