@@ -15,6 +15,10 @@ class PostController
             $controller = $_SESSION['controller'];
         if(isset($_GET['post']))
             $postId = $_GET['post'];
+
+        if($controller == "report")
+            $chkReport = 1;
+        
         $user = User::getByOpenID($openID);
         $post = Post::getByPostId($postId, $chkReport);
         $tagList = Tag::getAll();
@@ -39,7 +43,7 @@ class PostController
 
         Post::addPost($content, $openID, $tagID);
 
-        header("Location: ?controller=home&action=index");
+        header("Location: ?controller=".$controller."&action=index");
         die();
     }
 
@@ -83,7 +87,7 @@ class PostController
 
         Post::updateStatus($postID, $status);
 
-        header("Location: ?controller=home&action=index");
+        header("Location: ?controller=".$controller."&action=index");
         die();
     }
 

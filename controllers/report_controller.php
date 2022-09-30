@@ -1,5 +1,5 @@
 <?php 
-class HomeController
+class ReportController
 {
     public function index(){
         $openID = 0;
@@ -12,7 +12,7 @@ class HomeController
             $tagID = $_GET['tag'];
         $user = User::getByOpenID($openID);
         $tagList = Tag::getAll();
-        $postList = Post::getPost($tagID);
+        $postList = Post::getReportPost($tagID);
         require_once("./views/home/index.php");
     }
 

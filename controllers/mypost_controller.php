@@ -4,7 +4,6 @@ class MyPostController
     public function index(){
         $openID = 0;
         $tagID = 0;
-        $chkReport = 0;
         $controller = $_GET['controller'];
         
         if(isset($_SESSION['openID']))
