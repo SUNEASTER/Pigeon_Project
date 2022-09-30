@@ -126,7 +126,9 @@
     /* tweet box */
     .tweetbox__input img {
         border-radius: 50%;
-        height: 40px;
+        height: 70px;
+        width: 70px;
+        border: 5px solid var(--twitter-background);
     }
     
     .tweetBox {
@@ -170,7 +172,9 @@
     /* post */
     .post__avatar img {
         border-radius: 50%;
-        height: 40px;
+        height: 70px;
+        width: 70px;
+        border: 5px solid var(--twitter-background);
     }
     
     .post {
@@ -219,7 +223,24 @@
        margin-bottom: 5px;
        display: flex;
        flex-direction: row;
-   }
+    }
+
+    .post__time {
+
+       font-size: 15px;
+       margin-bottom: 5px;
+       display: flex;
+       flex-direction: row;
+
+        width: 130px;
+        height: 30px;
+        padding-top: 3px;
+        border-radius: 10px; 
+        background: gray;
+        text-align: center;
+        background-color: var(--twitter-background);
+        margin-right: 10px;
+    }
 
     .post__headerText__showbox{
         width: 70px;
@@ -233,7 +254,7 @@
     }
 
     #timebox{
-        margin-right: 10px;
+        margin-left: 15px;
     }
     
     .post__headerDescription {
@@ -346,6 +367,7 @@
         margin-top: 2px;
         margin-right: 9px;
     }
+    
     </style>
 
   </head>
@@ -356,16 +378,16 @@
         <i class="fab fa-twitter"></i>
         <form action="" method="GET" id="page_form" name="page_form">      
         
-        <input type="hidden" name="controller" value="home">
+        <input type="hidden" name="controller" id="controller_left_sidebar" value="">
         <input type="hidden" name="action" id="sidebar_action" value="">
         <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
         
-        <div class="sidebarOption active" onclick="submit_page('home')">
+        <div class="sidebarOption <?php if($controller == "home") echo "active" ?>" onclick="submit_page('home')">
             <span class="material-icons"> home </span>
             <h2>หน้าหลัก</h2>
         </div>
 
-        <div class="sidebarOption" onclick="submit_page('mypost')">
+        <div class="sidebarOption <?php if($controller == "mypost") echo "active" ?>" onclick="submit_page('mypost')">
             <span class="material-icons"> search </span>
             <h2>โพสต์ของฉัน</h2>
         </div>
@@ -393,7 +415,7 @@
                 </select>
             </div>
             <div class="tweetbox__input">
-                <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"/>
+                <img id="profile" src="resources/31.JPG"/>
                 <textarea class='scroll' id="content" name="content" maxlength="250"></textarea>
             </div>
             <input type="hidden" name="controller" value="post"/>
@@ -421,7 +443,7 @@
                     <?php }?>
                 </div>
                 <div class="post__time">
-                    <div id="timebox" class="post__headerText__showbox"> <p><?php echo "13.00" ?></p> </div>
+                    <div id="timebox" > <p><?php echo date_format($post->CreateDate,"d/m/y H:i"); ?></p> </div>
                 </div>
             </div>
             <div class="post__headerDescription">
@@ -429,12 +451,12 @@
             </div>
           </div>
         
-          <form action="" method="GET" id="footerpost_form" name="footerpost_form">
+          <form action="" method="GET" id="footerpost_form_<?php echo $post->Post_Id; ?>" name="footerpost_form">
             <div class="post__footer">
                 <p></p>
                 <p></p>
                 <div class="container_comment_box">
-                    <button type="button" class="btn btn-outline-light btn-circle btn-sm" onclick="GoToCommentPage()">
+                    <button type="button" class="btn btn-outline-light btn-circle btn-sm" onclick="GoToCommentPage('<?php echo $post->Post_Id; ?>')">
                         <i class="far fa-comment" style="color: black; font-size: 20px;"></i>
                         <span>4</span>
                     </button>
@@ -442,7 +464,6 @@
             </div>
             <input type="hidden" name="controller" value="post">
             <input type="hidden" name="action" value="index">
-            <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
             <input type="hidden" name="post" value=<?php echo $post->Post_Id; ?>>
           </form>
         </div>
@@ -471,7 +492,7 @@
                         <h2><?php echo $tag->Name; ?></h2>
                     </div>
                 <?php }?>
-                <input type="hidden" name="controller" value="home">
+                <input type="hidden" name="controller" value=<?php echo $controller; ?> >
                 <input type="hidden" name="action" value="index">
                 <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
                 <input type="hidden" name="tag" id="tag_id" value="">
@@ -479,68 +500,6 @@
         </div>
 
     </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="confirm_delete" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">คุณต้องการลบโพสต์นี้หรือไม่</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="post__headerDescription">
-                        <p id=text_confirm_delete></p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                    <button type="button" class="btn btn-danger" style="width: 69.49px; height: 38px;">ลบ</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="confirm_report" tabindex="-1" role="dialog" aria-labelledby="confirm_report" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">คุณต้องการรายงานโพสต์นี้หรือไม่</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="post__headerDescription">
-                        <p id=text_confirm_report>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quia iure voluptas, accusantium nulla mollitia maiores, blanditiis in dignissimos nam delectus quod recusandae ad officia eaque voluptates, officiis similique qui tempore!</p>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                            ไม่สุภาพ
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                        <label class="form-check-label" for="defaultCheck2">
-                            ล้อเรียน
-                        </label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                    <button type="button" class="btn btn-danger" style="width: 69.49px; height: 38px; padding-left: 10px;">รายงาน</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal end -->
-
 
   </body>
 </html>
@@ -551,14 +510,19 @@
         document.forms['category_form'].submit();
     }
     function submit_page(page){
-        if(page == "home")
+        if(page == "home"){
             document.getElementById("sidebar_action").value = "index";
-        else if(page == "mypost")
+            document.getElementById("controller_left_sidebar").value = "home";
+        }
+        else if(page == "mypost"){
             document.getElementById("sidebar_action").value = "index";
+            document.getElementById("controller_left_sidebar").value = "mypost";
+        }
         document.forms['page_form'].submit();
     }
-    function GoToCommentPage(){
-        document.forms['footerpost_form'].submit();
+    function GoToCommentPage(no){
+        let name = "footerpost_form_";
+        document.forms[name.concat(no)].submit();
     }
 
     document.getElementById('goto_post').onclick = function() {  

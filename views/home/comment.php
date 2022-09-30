@@ -341,16 +341,16 @@
         <i class="fab fa-twitter"></i>
         <form action="" method="GET" id="page_form" name="page_form">      
         
-        <input type="hidden" name="controller" value="home">
+        <input type="hidden" name="controller" id="controller_left_sidebar" value="">
         <input type="hidden" name="action" id="sidebar_action" value="">
         <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
         
-        <div class="sidebarOption active" onclick="submit_page('home')">
+        <div class="sidebarOption <?php if($controller == "home") echo "active" ?>" onclick="submit_page('home')">
             <span class="material-icons"> home </span>
             <h2>หน้าหลัก</h2>
         </div>
 
-        <div class="sidebarOption" onclick="submit_page('mypost')">
+        <div class="sidebarOption <?php if($controller == "mypost") echo "active" ?>" onclick="submit_page('mypost')">
             <span class="material-icons"> search </span>
             <h2>โพสต์ของฉัน</h2>
         </div>
@@ -420,8 +420,8 @@
                 <textarea class='scroll' id="content" name="content" maxlength="250"></textarea>
             </div>
             <input type="hidden" name="controller" value="post"/>
-            <input type="hidden" name="openID" value= <?php echo $user->Open_Id; ?>/>
-            <button type="submit" class="tweetBox__tweetButton" name="action" value="addPost">Reply</button>
+            <input type="hidden" name="postID" value= <?php echo $post->Post_Id; ?>/>
+            <button type="submit" class="tweetBox__tweetButton" name="action" value="addComment">Reply</button>
         </form>
       </div>
       <!-- tweetbox ends -->
@@ -503,8 +503,14 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                <form action="" method="GET">
+                    <input type="hidden" name="controller" value="post">
+                    <input type="hidden" name="status" value="0">
+                    <input type="hidden" name="postID" value=<?php echo $post->Post_Id; ?>>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                    <button type="button" class="btn btn-danger" style="width: 69.49px; height: 38px;">ลบ</button>
+                    <button type="submit" class="btn btn-danger" style="width: 69.49px; height: 38px;" 
+                                                                 name="action" value="updatePost" >ลบ</button>
+                </form>
                 </div>
             </div>
         </div>
@@ -538,8 +544,14 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                <form action="" method="GET">
+                    <input type="hidden" name="controller" value="post">
+                    <input type="hidden" name="status" value="2">
+                    <input type="hidden" name="postID" value=<?php echo $post->Post_Id; ?>>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                    <button type="button" class="btn btn-danger" style="width: 69.49px; height: 38px; padding-left: 10px;">รายงาน</button>
+                    <button type="submit" class="btn btn-danger" style="width: 69.49px; height: 38px; padding-left: 10px;"
+                                                                 name="action" value="updatePost">รายงาน</button>
+                </form>
                 </div>
             </div>
         </div>
@@ -557,10 +569,14 @@
         document.forms['category_form'].submit();
     }
     function submit_page(page){
-        if(page == "home")
+        if(page == "home"){
             document.getElementById("sidebar_action").value = "index";
-        else if(page == "mypost")
+            document.getElementById("controller_left_sidebar").value = "home";
+        }
+        else if(page == "mypost"){
             document.getElementById("sidebar_action").value = "index";
+            document.getElementById("controller_left_sidebar").value = "mypost";
+        }
         document.forms['page_form'].submit();
     }
     function GoToCommentPage(){
