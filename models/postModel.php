@@ -108,7 +108,7 @@
             try {
                 $PostList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM post "
+                $tsql = "SELECT DISTINCT post.* FROM post "
                 ."LEFT JOIN comment ON post.postId = comment.postId "
                 ."WHERE (post.status = 2 OR comment.status = 2) "
                 ."AND (post.tagId = $Tag_Id OR $Tag_Id = 0) "
