@@ -41,7 +41,8 @@ class PostController
         if(isset($_GET['tagID']))
             $tagID = $_GET['tagID'];
 
-        Post::addPost($content, $openID, $tagID);
+        if($content != "")
+            Post::addPost($content, $openID, $tagID);
 
         header("Location: ?controller=".$controller."&action=index");
         die();
@@ -62,7 +63,8 @@ class PostController
         if(substr($postID, -1) == '/')
             $postID = substr($postID, 0, -1);
 
-        Comment::addComment($content, $openID, $postID);
+        if($content != "")
+            Comment::addComment($content, $openID, $postID);
 
         header("Location: ?controller=post&action=index&post=".$postID);
         die();
@@ -70,7 +72,7 @@ class PostController
 
     public function updatePost(){
         $postID = 0;
-        $status = 1;
+        $status = -1;;
         $controller = "home";
 
         if(isset($_GET['postID']))
@@ -85,7 +87,8 @@ class PostController
         if(substr($status, -1) == '/')
             $status = substr($status, 0, -1);
 
-        Post::updateStatus($postID, $status);
+        if($status != -1)
+            Post::updateStatus($postID, $status);
 
         header("Location: ?controller=".$controller."&action=index");
         die();
@@ -94,7 +97,7 @@ class PostController
     public function updateComment(){
         $postID = 0;
         $commentID = 0;
-        $status = 1;
+        $status = -1;
 
         if(isset($_GET['postID']))
             $postID = $_GET['postID'];
@@ -110,8 +113,8 @@ class PostController
         if(substr($status, -1) == '/')
             $status = substr($status, 0, -1);
 
-
-        Comment::updateStatus($commentID, $status);
+        if($status != -1)
+            Comment::updateStatus($commentID, $status);
 
         header("Location: ?controller=post&action=index&post=".$postID);
         die();
