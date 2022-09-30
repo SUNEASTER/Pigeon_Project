@@ -5,6 +5,8 @@ class PostController
         $openID = 0;
         $postId = 0;
         $chkReport = 0;
+        $controller = $_GET['controller'];
+        
         if(isset($_SESSION['openID']))
             $openID = $_SESSION['openID'];
         if(isset($_GET['post']))
