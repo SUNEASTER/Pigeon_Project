@@ -64,6 +64,11 @@ class PostController
         if(isset($_GET['status']))
             $status = $_GET['status'];
 
+        if(substr($postID, -1) == '/')
+            $postID = substr($postID, 0, -1);
+        if(substr($status, -1) == '/')
+            $status = substr($status, 0, -1);
+
         Post::updateStatus($postID, $status);
 
         header("Location: ?controller=home&action=index");
@@ -84,6 +89,10 @@ class PostController
 
         if(substr($postID, -1) == '/')
             $postID = substr($postID, 0, -1);
+        if(substr($commentID, -1) == '/')
+            $commentID = substr($commentID, 0, -1);
+        if(substr($status, -1) == '/')
+            $status = substr($status, 0, -1);
 
 
         Comment::updateStatus($commentID, $status);
