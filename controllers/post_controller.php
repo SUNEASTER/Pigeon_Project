@@ -51,7 +51,7 @@ class PostController
 
         Comment::addComment($content, $openID, $postID);
 
-        header("Location: ?controller=home&action=index&post=".$postID);
+        header("Location: ?controller=post&action=index&post=".$postID);
         die();
     }
 
