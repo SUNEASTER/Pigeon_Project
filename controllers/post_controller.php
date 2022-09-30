@@ -46,6 +46,9 @@ class PostController
         if(isset($_GET['postID']))
             $postID = $_GET['postID'];
 
+        if(substr($postID, -1) == '/')
+            $postID = substr($postID, 0, -1)
+
         Comment::addComment($content, $openID, $postID);
 
         header("Location: ?controller=home&action=index");
