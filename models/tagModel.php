@@ -29,8 +29,7 @@
                 }
                 sqlsrv_free_stmt($getTag);
                 sqlsrv_close($conn);
-                if ($Count == 0)
-                    return null;
+
                 return $TagList;
             }
             catch(Exception $e) {

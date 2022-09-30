@@ -4,6 +4,7 @@ $controllers = array(   'login'=>['loginForm','login','logout','signupForm','sig
                         'home'=>['index','error'],
                         'post'=>['index','addPost','addComment','updatePost','updateComment'],
                         'mypost'=>['index'],
+                        'report'=>['index'],
                         );
 function call($controller, $action){
     require_once("controllers/".$controller."_controller.php");
@@ -20,16 +21,18 @@ function call($controller, $action){
                                 require_once("./models/userModel.php");
                                 require_once("./models/postModel.php");
                                 require_once("./models/tagModel.php");
+                                $_SESSION["controller"] = "home";
                                 $controller = new HomeController;
                                 break;
 
-        case "mypost":            if(!isset($_SESSION["openID"])){
+        case "mypost":          if(!isset($_SESSION["openID"])){
                                     header("Location: ?controller=login&action=loginForm");
                                     die();
                                 }
                                 require_once("./models/userModel.php");
                                 require_once("./models/postModel.php");
                                 require_once("./models/tagModel.php");
+                                $_SESSION["controller"] = "mypost";
                                 $controller = new MyPostController;
                                 break;
 
@@ -42,6 +45,17 @@ function call($controller, $action){
                                 require_once("./models/tagModel.php");
                                 require_once("./models/commentModel.php");
                                 $controller = new PostController();
+                                break;
+
+        case "report":            if( (!isset($_SESSION["openID"]) ) && (!isset($_SESSION["role"]) ) && ($_SESSION["openID"] != 2) ){
+                                    header("Location: ?controller=login&action=loginForm");
+                                    die();
+                                }
+                                require_once("./models/userModel.php");
+                                require_once("./models/postModel.php");
+                                require_once("./models/tagModel.php");
+                                $_SESSION["controller"] = "report";
+                                $controller = new HomeController;
                                 break;
 
         // case "registration":    if(!isset($_SESSION["role"]) || $_SESSION["role"] != "Student"){

@@ -58,9 +58,32 @@
                 }
                 sqlsrv_free_stmt($getComment);
                 sqlsrv_close($conn);
-                if ($Count == 0)
-                    return null;
+                
                 return $CommentList;
+            }
+            catch(Exception $e) {
+                return null;
+            }
+        }
+
+        public static function countByPostId($Post_Id, $ChkReport){
+            try {
+                $CommentList = [];
+                require("connectionConnect.php");
+                $tsql = "SELECT COUNT(commentId) AS count FROM comment WHERE postId = $Post_Id "
+                ."AND status = 1 OR ($ChkReport = 1 AND status = 2)";
+                $getComment = sqlsrv_query($conn, $tsql);
+                if ($getComment == FALSE)
+                    die(FormatErrors(sqlsrv_errors()));
+                $Count = 0;
+                while($row = sqlsrv_fetch_array($getComment, SQLSRV_FETCH_ASSOC))
+                {
+                    $Count = $row['count'];
+                }
+                sqlsrv_free_stmt($getComment);
+                sqlsrv_close($conn);
+
+                return $Count;
             }
             catch(Exception $e) {
                 return null;

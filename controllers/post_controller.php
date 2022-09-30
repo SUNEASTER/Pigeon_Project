@@ -5,10 +5,14 @@ class PostController
         $openID = 0;
         $postId = 0;
         $chkReport = 0;
-        $controller = $_GET['controller'];
+        $controller = "home";
+        
+        $_SESSION['controller'];
         
         if(isset($_SESSION['openID']))
             $openID = $_SESSION['openID'];
+        if(isset($_SESSION['controller']))
+            $controller = $_SESSION['controller'];
         if(isset($_GET['post']))
             $postId = $_GET['post'];
         $user = User::getByOpenID($openID);
@@ -22,9 +26,12 @@ class PostController
         $openID = 0;
         $content = "";
         $tagID = 0;
+        $controller = "home";
 
         if(isset($_SESSION['openID']))
             $openID = $_SESSION['openID'];
+        if(isset($_SESSION['controller']))
+            $controller = $_SESSION['controller'];
         if(isset($_GET['content']))
             $content = $_GET['content'];
         if(isset($_GET['tagID']))
@@ -60,9 +67,12 @@ class PostController
     public function updatePost(){
         $postID = 0;
         $status = 1;
+        $controller = "home";
 
         if(isset($_GET['postID']))
             $postID = $_GET['postID'];
+        if(isset($_SESSION['controller']))
+            $controller = $_SESSION['controller'];
         if(isset($_GET['status']))
             $status = $_GET['status'];
 

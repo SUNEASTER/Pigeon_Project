@@ -10,9 +10,11 @@
         public $Status;
         public $StatusName;
         public $Tag;
+        public $CommentCount;
 
         public function __construct($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id){
             require_once("./models/tagModel.php");
+            require_once("./models/commentModel.php");
             $this->Post_Id = $Post_Id;
             $this->Content = $Content;
             $this->UserOpen_Id = $UserOpen_Id;
@@ -29,6 +31,7 @@
                 $this->Status = "ปกติ";
             }
             $this->Tag = Tag::getByTagId($Tag_Id);
+            $this->CommentCount = Comment::countByPostId($Post_Id, 0);
 
         }
 
@@ -58,8 +61,7 @@
                 }
                 sqlsrv_free_stmt($getPost);
                 sqlsrv_close($conn);
-                if ($Count == 0)
-                    return null;
+
                 return $PostList;
             }
             catch(Exception $e) {
@@ -94,8 +96,7 @@
                 }
                 sqlsrv_free_stmt($getPost);
                 sqlsrv_close($conn);
-                if ($Count == 0)
-                    return null;
+                
                 return $PostList;
             }
             catch(Exception $e) {
