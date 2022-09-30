@@ -51,7 +51,7 @@ class PostController
 
         Comment::addComment($content, $openID, $postID);
 
-        header("Location: ?controller=home&action=index&post=$postID");
+        header("Location: ?controller=home&action=index&post=".$postID);
         die();
     }
 
@@ -66,7 +66,7 @@ class PostController
 
         Post::updateStatus($postID, $status);
 
-        header("Location: ?controller=post&action=index&post=".$postID);
+        header("Location: ?controller=home&action=index");
         die();
     }
 
@@ -81,6 +81,10 @@ class PostController
             $commentID = $_GET['commentID'];
         if(isset($_GET['status']))
             $status = $_GET['status'];
+
+        if(substr($postID, -1) == '/')
+            $postID = substr($postID, 0, -1);
+
 
         Comment::updateStatus($commentID, $status);
 
