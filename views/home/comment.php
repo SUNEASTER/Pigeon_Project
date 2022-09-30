@@ -126,7 +126,9 @@
     /* tweet box */
     .tweetbox__input img {
         border-radius: 50%;
-        height: 40px;
+        height: 70px;
+        width: 70px;
+        border: 5px solid var(--twitter-background);
     }
     
     .tweetBox {
@@ -170,7 +172,9 @@
     /* post */
     .post__avatar img {
         border-radius: 50%;
-        height: 40px;
+        height: 70px;
+        width: 70px;
+        border: 5px solid var(--twitter-background);
     }
     
     .post {
@@ -219,7 +223,24 @@
        margin-bottom: 5px;
        display: flex;
        flex-direction: row;
-   }
+    }
+
+    .post__time {
+
+        font-size: 15px;
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: row;
+
+        width: 130px;
+        height: 30px;
+        padding-top: 3px;
+        border-radius: 10px; 
+        background: gray;
+        text-align: center;
+        background-color: var(--twitter-background);
+        margin-right: 10px;
+    }
 
     .post__headerText__showbox{
         width: 70px;
@@ -233,7 +254,7 @@
     }
 
     #timebox{
-        margin-right: 10px;
+        margin-left: 15px;
     }
     
     .post__headerDescription {
@@ -382,7 +403,7 @@
                     <?php }?>
                 </div>
                 <div class="post__time">
-                    <div id="timebox" class="post__headerText__showbox"> <p><?php echo "13.00" ?></p> </div>
+                    <div id="timebox"> <p><?php echo date_format($post->CreateDate,"d/m/y H:i"); ?></p> </div>
                 </div>
             </div>
             <div class="post__headerDescription">
@@ -396,7 +417,7 @@
                 <p></p>
                 <div class="container_comment_box">
                 <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
-                                      onclick="click_delete_or_report('<?php echo $user->Open_Id == $post->UserOpen_Id; ?>','<?php echo $post->Content; ?>')"
+                                      onclick="click_delete_or_report('<?php echo $user->Open_Id == $post->UserOpen_Id; ?>','<?php echo $post->Content; ?>','updatePost','-1')"
                                       data-toggle="modal"
                                       data-target="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "#confirm_delete"; else echo "#confirm_report"; ?>" >
                     <i class="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "fa fa-trash-o"; else echo "fa fa-flag-o"; ?>" style="color: black; font-size: 20px;"></i>
@@ -436,6 +457,18 @@
 
         <div class="post__body">
           <div class="post__header">
+            <div class="post__headerText">
+                <div class="post__tag">
+                    <div class="post__headerText__showbox"> <p><?php echo $comment->CommentNo; ?></p> </div>
+                    <?php if ($user->Open_Id == $comment->UserOpen_Id) { ?>
+                        <div class="post__headerText__showbox"> <p> ของฉัน </p> </div>  
+                    <?php }?>
+                </div>
+                <div class="post__time">
+                    <div id="timebox"> <p><?php echo date_format($comment->CreateDate,"d/m/y H:i"); ?></p> </div>
+                </div>
+            </div>
+
             <div class="post__headerDescription">
               <p> <?php echo $comment->Content; ?></p>
             </div>
@@ -444,7 +477,16 @@
           <form action="" method="GET" id="footerpost_form" name="footerpost_form">
             <div class="post__footer">
                 <p></p>
-                <p></p>            
+                <p></p>
+                <div class="container_comment_box">
+                <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
+                        onclick="click_delete_or_report('<?php echo $user->Open_Id == $comment->UserOpen_Id; ?>','<?php echo $comment->Content; ?>','updateComment','<?php echo $comment->Comment_Id; ?>')"
+                        data-toggle="modal"
+                        data-target="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "#confirm_delete"; else echo "#confirm_report"; ?>" >
+                    <i  style="color: black; font-size: 20px;"
+                        class="<?php if ($user->Open_Id == $comment->UserOpen_Id) echo "fa fa-trash-o"; else echo "fa fa-flag-o"; ?>"></i>
+                </button>
+                </div>             
             </div>
             <input type="hidden" name="controller" value="post">
             <input type="hidden" name="action" value="index">
@@ -492,7 +534,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">คุณต้องการลบโพสต์นี้หรือไม่</h5>
+                    <h5 class="modal-title" id="header_delete"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -507,9 +549,10 @@
                     <input type="hidden" name="controller" value="post">
                     <input type="hidden" name="status" value="0">
                     <input type="hidden" name="postID" value=<?php echo $post->Post_Id; ?>>
+                    <input type="hidden" name="commentID" id="commentID_delete" value="">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
                     <button type="submit" class="btn btn-danger" style="width: 69.49px; height: 38px;" 
-                                                                 name="action" value="updatePost" >ลบ</button>
+                                                                 id="delete" name="action" value="" >ลบ</button>
                 </form>
                 </div>
             </div>
@@ -521,7 +564,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">คุณต้องการรายงานโพสต์นี้หรือไม่</h5>
+                    <h5 class="modal-title" id="header_report">คุณต้องการรายงานโพสต์นี้หรือไม่</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -530,27 +573,16 @@
                     <div class="post__headerDescription">
                         <p id=text_confirm_report></p>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                            ไม่สุภาพ
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                        <label class="form-check-label" for="defaultCheck2">
-                            ล้อเรียน
-                        </label>
-                    </div>
                 </div>
                 <div class="modal-footer">
                 <form action="" method="GET">
                     <input type="hidden" name="controller" value="post">
                     <input type="hidden" name="status" value="2">
                     <input type="hidden" name="postID" value=<?php echo $post->Post_Id; ?>>
+                    <input type="hidden" name="commentID" id="commentID_report" value="">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
                     <button type="submit" class="btn btn-danger" style="width: 69.49px; height: 38px; padding-left: 10px;"
-                                                                 name="action" value="updatePost">รายงาน</button>
+                                                                 id="report" name="action" value="">รายงาน</button>
                 </form>
                 </div>
             </div>
@@ -599,13 +631,30 @@
       this.style.height = (this.scrollHeight) + "px";
     });
 
-    function click_delete_or_report(isdelete, content){
+    function click_delete_or_report(isdelete, content, type, commentID){ // type = updatePost , updateComment
+        let a = "";
+        if(type == "updatePost")
+            a = "โพสต์";    
+        else
+            a = "คอมเมนต์";
         
         if(isdelete == "1"){
+            let b = "คุณต้องการลบ";
+            let c = b.concat(a);
+            c = c.concat("นี้หรือไม่");
             document.getElementById("text_confirm_delete").innerHTML = content;
+            document.getElementById("header_delete").innerHTML = c;
+            document.getElementById("delete").value = type;
+            if(type == "updateComment") document.getElementById("commentID_delete").value = commentID;
         }
         else{
+            let b = "คุณต้องการรายงาน";
+            let c = b.concat(a);
+            c = c.concat("นี้หรือไม่");
             document.getElementById("text_confirm_report").innerHTML = content;
+            document.getElementById("header_report").innerHTML = c;
+            document.getElementById("report").value = type;
+            if(type == "updateComment") document.getElementById("commentID_report").value = commentID;
         }
     }
 

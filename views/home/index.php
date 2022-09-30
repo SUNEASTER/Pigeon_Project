@@ -227,10 +227,10 @@
 
     .post__time {
 
-       font-size: 15px;
-       margin-bottom: 5px;
-       display: flex;
-       flex-direction: row;
+        font-size: 15px;
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: row;
 
         width: 130px;
         height: 30px;
@@ -458,7 +458,7 @@
                 <div class="container_comment_box">
                     <button type="button" class="btn btn-outline-light btn-circle btn-sm" onclick="GoToCommentPage('<?php echo $post->Post_Id; ?>')">
                         <i class="far fa-comment" style="color: black; font-size: 20px;"></i>
-                        <span>4</span>
+                        <span><?php echo $post->CommentCount; ?></span>
                     </button>
                 </div>              
             </div>
