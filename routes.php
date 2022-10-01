@@ -47,7 +47,7 @@ function call($controller, $action){
                                 $controller = new PostController();
                                 break;
 
-        case "report":            if( (!isset($_SESSION["openID"]) ) && (!isset($_SESSION["role"]) ) && ($_SESSION["openID"] != 2) ){
+        case "report":            if( (!isset($_SESSION["openID"]) ) && (!isset($_SESSION["role"]) ) && ($_SESSION["role"] != 2) ){
                                     header("Location: ?controller=login&action=loginForm");
                                     die();
                                 }
@@ -57,37 +57,6 @@ function call($controller, $action){
                                 $_SESSION["controller"] = "report";
                                 $controller = new HomeController;
                                 break;
-
-        // case "registration":    if(!isset($_SESSION["role"]) || $_SESSION["role"] != "Student"){
-        //                             header("Location: ?controller=login&action=loginForm");
-        //                             die();
-        //                         }
-        //                         require_once("./models/userModel.php");
-        //                         require_once("./models/requestFormModel.php");
-        //                         require_once("./models/companyModel.php");
-        //                         require_once("./models/districtModel.php");
-        //                         require_once("./models/amphureModel.php");
-        //                         require_once("./models/provinceModel.php");
-        //                         $controller = new RegistrationController();
-        //                         break;
-
-        // case "checkStatus":     if(!isset($_SESSION["role"]) || $_SESSION["role"] != "Student"){
-        //                             header("Location: ?controller=login&action=loginForm");
-        //                             die();
-        //                         }
-        //                         require_once("./models/userModel.php");
-        //                         require_once("./models/requestFormModel.php");
-        //                         $controller = new CheckStatusController();
-        //                         break; 
-
-        // case "checkStudent":    if(!isset($_SESSION["role"]) || $_SESSION["role"] == "Student"){
-        //                             header("Location: ?controller=login&action=loginForm");
-        //                             die();
-        //                         }
-        //                         require_once("./models/requestFormModel.php");
-        //                         require_once("./models/userModel.php");
-        //                         $controller = new CheckStudentController();
-        //                         break;
                                 
     }
 
