@@ -38,7 +38,7 @@
                 require("connectionConnect.php");
                 $tsql = "SELECT * FROM comment WHERE postId = $Post_Id "
                 ."AND status = 1 OR ($ChkReport = 1 AND status = 2)"
-                ."ORDER BY createDate DESC";
+                ."ORDER BY createDate ASC";
                 $getComment = sqlsrv_query($conn, $tsql);
                 if ($getComment == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
