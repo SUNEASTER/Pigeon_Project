@@ -55,7 +55,7 @@ function call($controller, $action){
                                 require_once("./models/postModel.php");
                                 require_once("./models/tagModel.php");
                                 $_SESSION["controller"] = "report";
-                                $controller = new HomeController;
+                                $controller = new ReportController;
                                 break;
                                 
     }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Twitter Clone - Final</title>
+    <title>Pigeon</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link
       rel="stylesheet"
@@ -375,6 +375,11 @@
             <span class="material-icons"> search </span>
             <h2>โพสต์ของฉัน</h2>
         </div>
+        <?php if($user->Role == "admin") ?>
+        <div class="sidebarOption <?php if($controller == "report") echo "active" ?>" onclick="submit_page('report')">
+            <span class="material-icons"> report </span>
+            <h2>การรายงาน</h2>
+        </div>
 
         </form>  
         <button class="sidebar__tweet" id="goto_post" >Comment</button>
@@ -407,7 +412,7 @@
                 </div>
             </div>
             <div class="post__headerDescription">
-              <p> <?php echo $post->Content; ?></p>
+              <p <?php if($post->Status == "อยู่ระหว่างตรวจสอบ") echo 'style="color: red;"'; ?> > <?php echo $post->Content; ?></p>
             </div>
           </div>
         
@@ -416,12 +421,21 @@
                 <p></p>
                 <p></p>
                 <div class="container_comment_box">
-                <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
-                                      onclick="click_delete_or_report('<?php echo $user->Open_Id == $post->UserOpen_Id; ?>','<?php echo $post->Content; ?>','updatePost','-1')"
-                                      data-toggle="modal"
-                                      data-target="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "#confirm_delete"; else echo "#confirm_report"; ?>" >
-                    <i class="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "fa fa-trash-o"; else echo "fa fa-flag-o"; ?>" style="color: black; font-size: 20px;"></i>
-                </button>
+                    <?php if($controller == "report" && $post->Status == "อยู่ระหว่างตรวจสอบ"){ ?> 
+                    <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
+                                        onclick="click_approve('<?php echo $post->Content; ?>','updatePost','-1')"
+                                        data-toggle="modal"
+                                        data-target="#confirm_approve">
+                        <i class="far fa-check-circle" style="color: black; font-size: 20px;"></i>
+                    </button>
+                    <?php } ?>
+                    
+                    <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
+                                        onclick="click_delete_or_report_or_ban('<?php echo $user->Open_Id == $post->UserOpen_Id; ?>','<?php echo $post->Content; ?>','updatePost','-1','<?php echo $user->Role == 2; ?>')"
+                                        data-toggle="modal"
+                                        data-target="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "#confirm_delete"; else if($user->Role != 2) echo "#confirm_report"; else echo "#confirm_ban"; ?>" >
+                        <i class="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "fa fa-trash-o"; else if($user->Role != 2) echo "fa fa-flag-o"; else echo "fas fa-ban"; ?>" style="color: black; font-size: 20px;"></i>
+                    </button>
                 </div>              
             </div>
             <input type="hidden" name="controller" value="post">
@@ -470,22 +484,32 @@
             </div>
 
             <div class="post__headerDescription">
-              <p> <?php echo $comment->Content; ?></p>
+              <p <?php if($comment->Status == "อยู่ระหว่างตรวจสอบ") echo 'style="color: red;"'; ?> > <?php echo $comment->Content; ?></p>
             </div>
           </div>
         
           <form action="" method="GET" id="footerpost_form" name="footerpost_form">
             <div class="post__footer">
                 <p></p>
-                <p></p>
+                <p><?php echo $user->Open_Id." ".$comment->UserOpen_Id; ?></p>
                 <div class="container_comment_box">
-                <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
-                        onclick="click_delete_or_report('<?php echo $user->Open_Id == $comment->UserOpen_Id; ?>','<?php echo $comment->Content; ?>','updateComment','<?php echo $comment->Comment_Id; ?>')"
-                        data-toggle="modal"
-                        data-target="<?php if ($user->Open_Id == $post->UserOpen_Id) echo "#confirm_delete"; else echo "#confirm_report"; ?>" >
-                    <i  style="color: black; font-size: 20px;"
-                        class="<?php if ($user->Open_Id == $comment->UserOpen_Id) echo "fa fa-trash-o"; else echo "fa fa-flag-o"; ?>"></i>
-                </button>
+                    
+                    <?php if($controller == "report" && $comment->Status == "อยู่ระหว่างตรวจสอบ"){ ?> 
+                    <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
+                                        onclick="click_approve('<?php echo $comment->Content; ?>','updateComment','<?php echo $comment->Comment_Id; ?>')"
+                                        data-toggle="modal"
+                                        data-target="#confirm_approve">
+                        <i class="far fa-check-circle" style="color: black; font-size: 20px;"></i>
+                    </button>
+                    <?php } ?>
+                
+                    <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
+                            onclick="click_delete_or_report_or_ban('<?php echo $user->Open_Id == $comment->UserOpen_Id; ?>','<?php echo $comment->Content; ?>','updateComment','<?php echo $comment->Comment_Id; ?>','<?php echo $user->Role == 2; ?>')"
+                            data-toggle="modal"
+                            data-target="<?php if ($user->Open_Id == $comment->UserOpen_Id) echo "#confirm_delete"; else if($user->Role != 2) echo "#confirm_report"; else echo "#confirm_ban"; ?>" >
+                        <i  style="color: black; font-size: 20px;"
+                            class="<?php if ($user->Open_Id == $comment->UserOpen_Id) echo "fa fa-trash-o"; else if($user->Role != 2) echo "fa fa-flag-o"; else echo "fas fa-ban"; ?>"></i>
+                    </button>
                 </div>             
             </div>
             <input type="hidden" name="controller" value="post">
@@ -560,11 +584,70 @@
     </div>
 
 
+    <div class="modal fade" id="confirm_ban" tabindex="-1" role="dialog" aria-labelledby="confirm_ban" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="header_ban"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="post__headerDescription">
+                        <p id=text_confirm_ban></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <form action="" method="GET">
+                    <input type="hidden" name="controller" value="post">
+                    <input type="hidden" name="status" value="3">
+                    <input type="hidden" name="postID" value=<?php echo $post->Post_Id; ?>>
+                    <input type="hidden" name="commentID" id="commentID_ban" value="">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="submit" class="btn btn-danger" style="width: 69.49px; height: 38px; padding-left: 10px;"
+                                                                 id="ban" name="action" value="">แบน</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirm_approve" tabindex="-1" role="dialog" aria-labelledby="confirm_approve" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="header_approve"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="post__headerDescription">
+                        <p id=text_confirm_approve></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <form action="" method="GET">
+                    <input type="hidden" name="controller" value="post">
+                    <input type="hidden" name="status" value="1">
+                    <input type="hidden" name="postID" value=<?php echo $post->Post_Id; ?>>
+                    <input type="hidden" name="commentID" id="commentID_approve" value="">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                    <button type="submit" class="btn btn-danger" style="width: 69.49px; height: 38px; padding-left: 10px;"
+                                                                 id="approve" name="action" value="">ยืนยัน</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" id="confirm_report" tabindex="-1" role="dialog" aria-labelledby="confirm_report" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="header_report">คุณต้องการรายงานโพสต์นี้หรือไม่</h5>
+                    <h5 class="modal-title" id="header_report"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -588,7 +671,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal end -->
 
 
@@ -608,6 +690,10 @@
         else if(page == "mypost"){
             document.getElementById("sidebar_action").value = "index";
             document.getElementById("controller_left_sidebar").value = "mypost";
+        }
+        else if(page == "report"){
+            document.getElementById("sidebar_action").value = "index";
+            document.getElementById("controller_left_sidebar").value = "report";
         }
         document.forms['page_form'].submit();
     }
@@ -631,13 +717,13 @@
       this.style.height = (this.scrollHeight) + "px";
     });
 
-    function click_delete_or_report(isdelete, content, type, commentID){ // type = updatePost , updateComment
+    function click_delete_or_report_or_ban(isdelete, content, type, commentID, isadmin){ // type = updatePost , updateComment
         let a = "";
         if(type == "updatePost")
             a = "โพสต์";    
         else
             a = "คอมเมนต์";
-        
+        console.log(isdelete);
         if(isdelete == "1"){
             let b = "คุณต้องการลบ";
             let c = b.concat(a);
@@ -648,14 +734,39 @@
             if(type == "updateComment") document.getElementById("commentID_delete").value = commentID;
         }
         else{
-            let b = "คุณต้องการรายงาน";
-            let c = b.concat(a);
-            c = c.concat("นี้หรือไม่");
-            document.getElementById("text_confirm_report").innerHTML = content;
-            document.getElementById("header_report").innerHTML = c;
-            document.getElementById("report").value = type;
-            if(type == "updateComment") document.getElementById("commentID_report").value = commentID;
+            if(isadmin != "1"){
+                let b = "คุณต้องการรายงาน";
+                let c = b.concat(a);
+                c = c.concat("นี้หรือไม่");
+                document.getElementById("text_confirm_report").innerHTML = content;
+                document.getElementById("header_report").innerHTML = c;
+                document.getElementById("report").value = type;
+                if(type == "updateComment") document.getElementById("commentID_report").value = commentID;
+            }
+            else{
+                let b = "คุณต้องการแบน";
+                let c = b.concat(a);
+                c = c.concat("นี้หรือไม่");
+                document.getElementById("text_confirm_ban").innerHTML = content;
+                document.getElementById("header_ban").innerHTML = c;
+                document.getElementById("ban").value = type;
+                if(type == "updateComment") document.getElementById("commentID_ban").value = commentID;
+            } 
         }
+    }
+
+    function click_approve(content, type, commentID){
+        console.log(type);
+        console.log(commentID);
+        if(type == "updatePost"){
+            document.getElementById("header_approve").innerHTML = "ตุณต้องการยืนยันความถูกต้องของโพสต์";
+        }
+        else{
+            document.getElementById("header_approve").innerHTML = "ตุณต้องการยืนยันความถูกต้องของคอมเมนต์";
+            document.getElementById("commentID_approve").value = commentID;
+        }
+        document.getElementById("text_confirm_approve").innerHTML = content;
+        document.getElementById("approve").value = type;
     }
 
 </script>

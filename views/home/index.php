@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Twitter Clone - Final</title>
+    <title>Pigeon</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link
       rel="stylesheet"
@@ -391,7 +391,12 @@
             <span class="material-icons"> search </span>
             <h2>โพสต์ของฉัน</h2>
         </div>
-
+        <?php if($user->Role == 2){ ?>
+        <div class="sidebarOption <?php if($controller == "report") echo "active" ?>" onclick="submit_page('report')">
+            <span class="material-icons"> report </span>
+            <h2>การรายงาน</h2>
+        </div>
+        <?php } ?>
         </form>  
         <button class="sidebar__tweet" id="goto_post" >Post</button>
     </div>
@@ -447,7 +452,7 @@
                 </div>
             </div>
             <div class="post__headerDescription">
-              <p> <?php echo $post->Content; ?></p>
+              <p <?php if($post->Status == "อยู่ระหว่างตรวจสอบ") echo 'style="color: red;"'; ?> > <?php echo $post->Content; ?></p>
             </div>
           </div>
         
@@ -517,6 +522,10 @@
         else if(page == "mypost"){
             document.getElementById("sidebar_action").value = "index";
             document.getElementById("controller_left_sidebar").value = "mypost";
+        }
+        else if(page == "report"){
+            document.getElementById("sidebar_action").value = "index";
+            document.getElementById("controller_left_sidebar").value = "report";
         }
         document.forms['page_form'].submit();
     }
