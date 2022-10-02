@@ -456,7 +456,7 @@
                 </div>
             </div>
             <div class="post__headerDescription">
-              <p <?php if($post->Status == "อยู่ระหว่างตรวจสอบ") echo 'style="color: red;"'; ?> > <?php echo $post->Content; ?></p>
+              <p <?php if($post->Status == 2) echo 'style="color: red;"'; ?> > <?php echo $post->Content; ?></p>
             </div>
           </div>
         

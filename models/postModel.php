@@ -22,13 +22,13 @@
             $this->UpdateDate = $UpdateDate;
             $this->Status = $Status;
             if($Status == 2){
-                $this->Status = "อยู่ระหว่างตรวจสอบ";
+                $this->StatusName = "อยู่ระหว่างตรวจสอบ";
             }
             else if($Status == 3){
-                $this->Status = "แบน";
+                $this->StatusName = "แบน";
             }
             else {
-                $this->Status = "ปกติ";
+                $this->StatusName = "ปกติ";
             }
             $this->Tag = Tag::getByTagId($Tag_Id);
             $this->CommentCount = Comment::countByPostId($Post_Id, $ChkReport);

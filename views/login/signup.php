@@ -170,19 +170,19 @@
             comfirmPass.setCustomValidity('');
             if(action == "signup"){
                 if(email.value == ""){
-                    email.setCustomValidity('กรุณาใส่ email');
+                    email.setCustomValidity('กรุณาใส่อีเมล');
                 }
                 else if(username.value == ""){
-                    username.setCustomValidity('กรุณาใส่ username');
+                    username.setCustomValidity('กรุณาใส่ชื่อผู้ใช้');
                 }
                 else if(pass.value == ""){
-                    pass.setCustomValidity('กรุณาใส่ password');
+                    pass.setCustomValidity('กรุณาใส่รหัสผ่าน');
                 }
                 else if(comfirmPass.value == ""){
-                    comfirmPass.setCustomValidity('กรุณายันยืน password');
+                    comfirmPass.setCustomValidity('กรุณายันยืนรหัสผ่าน');
                 }
                 else if(pass.value != comfirmPass.value){
-                    comfirmPass.setCustomValidity('password ไม่ตรงกับที่ใส่ก่อนหน้า');
+                    comfirmPass.setCustomValidity('รหัสผ่านไม่ตรงกับที่ใส่ก่อนหน้า');
                 }
             }
         }

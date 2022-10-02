@@ -149,7 +149,7 @@
             
             if(action == "login"){
                 if(id.value == ""){
-                    id.setCustomValidity('กรุณาใส่ไอดี');
+                    id.setCustomValidity('กรุณาใส่ชื่อผู้ใช้');
                 }
                 else if(pass.value == ""){
                     pass.setCustomValidity('กรุณาใส่รหัสผ่าน');

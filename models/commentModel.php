@@ -22,13 +22,13 @@
             $this->Status = $Status;
             $this->CommentNo = $CommentNo;
             if($Status == 2){
-                $this->Status = "อยู่ระหว่างตรวจสอบ";
+                $this->StatusName = "อยู่ระหว่างตรวจสอบ";
             }
             else if($Status == 3){
-                $this->Status = "แบน";
+                $this->StatusName = "แบน";
             }
             else {
-                $this->Status = "ปกติ";
+                $this->StatusName = "ปกติ";
             }
         }
 
@@ -36,7 +36,7 @@
             try {
                 $CommentList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM comment "
+                $tsql = "SELECT comment.* FROM comment "
                 ."INNER JOIN useraccount ON comment.userOpenId = useraccount.userOpenId "
                 ."WHERE comment.postId = $Post_Id "
                 ."AND (comment.status = 1 OR ($ChkReport = 1 AND comment.status = 2)) "

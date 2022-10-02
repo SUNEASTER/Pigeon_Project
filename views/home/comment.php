@@ -416,7 +416,7 @@
                 </div>
             </div>
             <div class="post__headerDescription">
-              <p <?php if($post->Status == "อยู่ระหว่างตรวจสอบ") echo 'style="color: red;"'; ?> > <?php echo $post->Content; ?></p>
+              <p <?php if($post->Status == 2) echo 'style="color: red;"'; ?> > <?php echo $post->Content; ?></p>
             </div>
           </div>
         
@@ -425,7 +425,7 @@
                 <p></p>
                 <p></p>
                 <div class="container_comment_box">
-                    <?php if($controller == "report" && $post->Status == "อยู่ระหว่างตรวจสอบ"){ ?> 
+                    <?php if($controller == "report" && $post->Status == 2){ ?> 
                     <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
                                         onclick="click_approve('<?php echo $post->Content; ?>','updatePost','-1')"
                                         data-toggle="modal"
@@ -476,7 +476,7 @@
           <div class="post__header">
             <div class="post__headerText">
                 <div class="post__tag">
-                    <div class="post__headerText__showbox"> <p><?php if($comment->CommentNo == 0) echo "เจ้าของ"; else echo "คนที่ ".$comment->CommentNo; ?></p> </div>
+                    <div class="post__headerText__showbox"> <p><?php if($comment->CommentNo == 0) echo "ผู้โพส"; else echo "คนที่ ".$comment->CommentNo; ?></p> </div>
                     <?php if ($user->Open_Id == $comment->UserOpen_Id) { ?>
                         <div class="post__headerText__showbox"> <p> ของฉัน </p> </div>  
                     <?php }?>
@@ -487,7 +487,7 @@
             </div>
 
             <div class="post__headerDescription">
-              <p <?php if($comment->Status == "อยู่ระหว่างตรวจสอบ") echo 'style="color: red;"'; ?> > <?php echo $comment->Content; ?></p>
+              <p <?php if($comment->Status == 2) echo 'style="color: red;"'; ?> > <?php echo $comment->Content; ?></p>
             </div>
           </div>
         
@@ -497,7 +497,7 @@
                 <p></p>
                 <div class="container_comment_box">
                     
-                    <?php if($controller == "report" && $comment->Status == "อยู่ระหว่างตรวจสอบ"){ ?> 
+                    <?php if($controller == "report" && $comment->Status == 2){ ?> 
                     <button type="button" class="btn btn-outline-light btn-circle btn-sm" 
                                         onclick="click_approve('<?php echo $comment->Content; ?>','updateComment','<?php echo $comment->Comment_Id; ?>')"
                                         data-toggle="modal"

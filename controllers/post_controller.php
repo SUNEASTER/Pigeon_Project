@@ -124,6 +124,10 @@ class PostController
                 User::updateStatus($post->UserOpen_Id, 2);
             }      
         }
+        if($status == 1){
+            header("Location: ?controller=post&action=index&post=".$postID);
+            die();
+        }
 
         header("Location: ?controller=".$controller."&action=index");
         die();

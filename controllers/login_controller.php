@@ -15,7 +15,7 @@ class LoginController
                         break;
                 case 2: $warning = "ใส่รหัสผ่านไม่ถูกต้อง";
                         break; 
-                case 3: $warning = "รหัสของท่านถูกแบน กรุณาติดต่อแอดมิน";
+                case 3: $warning = "บัชญีนี้ถูกแบน กรุณาติดต่อแอดมิน";
                         break; 
             }
         }
