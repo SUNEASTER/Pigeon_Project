@@ -71,7 +71,7 @@
                 $CommentList = [];
                 require("connectionConnect.php");
                 $tsql = "SELECT COUNT(commentId) AS count FROM comment WHERE postId = $Post_Id "
-                ."AND status = 1 OR ($ChkReport = 1 AND status = 2)";
+                ."AND (status = 1 OR ($ChkReport = 1 AND status = 2))";
                 $getComment = sqlsrv_query($conn, $tsql);
                 if ($getComment == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
@@ -143,7 +143,7 @@
             try{
                 require("connectionConnect.php");
 
-                $tsql = "UPDATE comment SET status = $Status, updateDate = GETDATE() WHERE commentId = $CommentId";
+                $tsql = "UPDATE comment SET status = $Status, updateDate = sysdatetimeoffset() AT TIME ZONE 'SE Asia Standard Time' WHERE commentId = $CommentId";
                 $updatePost = sqlsrv_query($conn, $tsql);
                 if($updatePost == FALSE)
                     die(FormatErrors( sqlsrv_errors()));

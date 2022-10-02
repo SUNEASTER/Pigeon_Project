@@ -12,7 +12,7 @@
         public $Tag;
         public $CommentCount;
 
-        public function __construct($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id){
+        public function __construct($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id, $ChkReport){
             require_once("./models/tagModel.php");
             require_once("./models/commentModel.php");
             $this->Post_Id = $Post_Id;
@@ -31,7 +31,7 @@
                 $this->Status = "ปกติ";
             }
             $this->Tag = Tag::getByTagId($Tag_Id);
-            $this->CommentCount = Comment::countByPostId($Post_Id, 0);
+            $this->CommentCount = Comment::countByPostId($Post_Id, $ChkReport);
 
         }
 
@@ -56,7 +56,7 @@
                     $UpdateDate = $row['updateDate'];
                     $Status = $row['status'];
                     $Tag_Id = $row['tagId'];
-                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id);
+                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id, 0);
                     $Count++;
                 }
                 sqlsrv_free_stmt($getPost);
@@ -91,7 +91,7 @@
                     $UpdateDate = $row['updateDate'];
                     $Status = $row['status'];
                     $Tag_Id = $row['tagId'];
-                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id);
+                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id, 0);
                     $Count++;
                 }
                 sqlsrv_free_stmt($getPost);
@@ -126,7 +126,7 @@
                     $UpdateDate = $row['updateDate'];
                     $Status = $row['status'];
                     $Tag_Id = $row['tagId'];
-                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id);
+                    $PostList[] = new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id, 1);
                     $Count++;
                 }
                 sqlsrv_free_stmt($getPost);
@@ -143,7 +143,7 @@
             try {
                 require("connectionConnect.php");
                 $tsql = "SELECT TOP(1) * FROM post WHERE postId = $Post_Id"
-                ."AND status = 1 OR ( $ChkReport = 1 AND status = 2)";
+                ."AND (status = 1 OR ( $ChkReport = 1 AND status = 2))";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
@@ -163,7 +163,7 @@
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id);
+                return new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id, $ChkReport);
             }
             catch(Exception $e) {
                 return null;
@@ -190,7 +190,7 @@
             try{
                 require("connectionConnect.php");
 
-                $tsql = "UPDATE post SET status = $Status, updateDate = GETDATE() WHERE postId = $PostId";
+                $tsql = "UPDATE post SET status = $Status, updateDate = sysdatetimeoffset() AT TIME ZONE 'SE Asia Standard Time' WHERE postId = $PostId";
                 $updatePost = sqlsrv_query($conn, $tsql);
                 if($updatePost == FALSE)
                     die(FormatErrors( sqlsrv_errors()));
