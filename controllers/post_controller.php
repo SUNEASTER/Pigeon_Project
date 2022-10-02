@@ -20,6 +20,10 @@ class PostController
             $chkReport = 1;
         
         $user = User::getByOpenID($openID);
+        if( $user->Status == 2){
+            header("Location: ?controller=login&action=loginForm");
+            die();
+        }
         $post = Post::getByPostId($postId, $chkReport);
         $tagList = Tag::getAll();
         $commentList = Comment::getByPostId($postId, $chkReport);
@@ -40,6 +44,12 @@ class PostController
             $content = $_GET['content'];
         if(isset($_GET['tagID']))
             $tagID = $_GET['tagID'];
+            
+        $user = User::getByOpenID($openID);
+        if( $user->Status == 2){
+            header("Location: ?controller=login&action=loginForm");
+            die();
+        }
 
         if($content != "")
             Post::addPost($content, $openID, $tagID);
@@ -60,6 +70,12 @@ class PostController
         if(isset($_GET['postID']))
             $postID = $_GET['postID'];
 
+        $user = User::getByOpenID($openID);
+        if( $user->Status == 2){
+            header("Location: ?controller=login&action=loginForm");
+            die();
+        }
+
         if(substr($postID, -1) == '/')
             $postID = substr($postID, 0, -1);
 
@@ -71,10 +87,13 @@ class PostController
     }
 
     public function updatePost(){
+        $openID = 0;
         $postID = 0;
         $status = -1;;
         $controller = "home";
 
+        if(isset($_SESSION['openID']))
+            $openID = $_SESSION['openID'];
         if(isset($_GET['postID']))
             $postID = $_GET['postID'];
         if(isset($_SESSION['controller']))
@@ -82,29 +101,54 @@ class PostController
         if(isset($_GET['status']))
             $status = $_GET['status'];
 
+        $user = User::getByOpenID($openID);
+        if( $user->Status == 2){
+            header("Location: ?controller=login&action=loginForm");
+            die();
+        }
+
         if(substr($postID, -1) == '/')
             $postID = substr($postID, 0, -1);
         if(substr($status, -1) == '/')
             $status = substr($status, 0, -1);
 
+        $post = Post::getByPostId($postID, 1);
+
         if($status != -1)
             Post::updateStatus($postID, $status);
+ 
+        if($status == 3){
+            // echo($post->UserOpen_Id);
+            // echo(Post::countReportPostByUserOpenId($post->UserOpen_Id));
+            if(Post::countReportPostByUserOpenId($post->UserOpen_Id) >= 3){
+                User::updateStatus($post->UserOpen_Id, 2);
+            }      
+        }
 
         header("Location: ?controller=".$controller."&action=index");
         die();
     }
 
     public function updateComment(){
+        $openID = 0;
         $postID = 0;
         $commentID = 0;
         $status = -1;
 
+        if(isset($_SESSION['openID']))
+            $openID = $_SESSION['openID'];
         if(isset($_GET['postID']))
             $postID = $_GET['postID'];
         if(isset($_GET['commentID']))
             $commentID = $_GET['commentID'];
         if(isset($_GET['status']))
             $status = $_GET['status'];
+
+        $user = User::getByOpenID($openID);
+        if( $user->Status == 2){
+            header("Location: ?controller=login&action=loginForm");
+            die();
+        }
 
         if(substr($postID, -1) == '/')
             $postID = substr($postID, 0, -1);
@@ -115,6 +159,14 @@ class PostController
 
         if($status != -1)
             Comment::updateStatus($commentID, $status);
+        if($status == 3){
+            $comment = Comment::getByCommentId($commentID);
+            // echo($comment->UserOpen_Id);
+            // echo(Post::countReportPostByUserOpenId($comment->UserOpen_Id));
+            if(Post::countReportPostByUserOpenId($comment->UserOpen_Id) >= 3){
+                User::updateStatus($comment->UserOpen_Id, 2);
+            }      
+        }
 
         header("Location: ?controller=post&action=index&post=".$postID);
         die();

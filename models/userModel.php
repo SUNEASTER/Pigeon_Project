@@ -6,13 +6,15 @@
         public $Password;
         public $Email;
         public $Role;
+        public $Status;
 
-        public function __construct($Open_Id, $User_Id, $Password, $Email, $Role){
+        public function __construct($Open_Id, $User_Id, $Password, $Email, $Role, $Status){
             $this->Open_Id = $Open_Id;
             $this->User_Id = $User_Id;
             $this->Password = $Password;
             $this->Email = $Email;
             $this->Role = $Role;
+            $this->Status = $Status;
         }
 
         public static function getByOpenID($Open_ID){
@@ -30,13 +32,14 @@
                     $Password = null;
                     $Email = $row['email'];
                     $Role = $row['role'];
+                    $Status = $row['status'];
                     $Count++;
                 }
                 sqlsrv_free_stmt($getUser);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new User($Open_Id, $User_Id, $Password, $Email, $Role);
+                return new User($Open_Id, $User_Id, $Password, $Email, $Role, $Status);
             }
             catch(Exception $e) {
                 return null;
@@ -58,13 +61,14 @@
                     $Password = null;
                     $Email = $row['email'];
                     $Role = $row['role'];
+                    $Status = $row['status'];
                     $Count++;
                 }
                 sqlsrv_free_stmt($getUser);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new User($Open_Id, $User_Id, $Password, $Email, $Role);
+                return new User($Open_Id, $User_Id, $Password, $Email, $Role, $Status);
             }
             catch(Exception $e) {
                 return null;
@@ -86,13 +90,14 @@
                     $Password = null;
                     $Email = $row['email'];
                     $Role = $row['role'];
+                    $Status = $row['status'];
                     $Count++;
                 }
                 sqlsrv_free_stmt($getUser);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new User($Open_Id, $User_Id, $Password, $Email, $Role);
+                return new User($Open_Id, $User_Id, $Password, $Email, $Role, $Status);
             }
             catch(Exception $e) {
                 return null;
@@ -114,13 +119,14 @@
                     $Password = null;
                     $Email = $row['email'];
                     $Role = $row['role'];
+                    $Status = $row['status'];
                     $Count++;
                 }
                 sqlsrv_free_stmt($getUser);
                 sqlsrv_close($conn);
                 if ($Count == 0)
                     return null;
-                return new User($Open_Id, $User_Id, $Password, $Email, $Role);
+                return new User($Open_Id, $User_Id, $Password, $Email, $Role, $Status);
             }
             catch(Exception $e) {
                 return null;
@@ -137,6 +143,21 @@
                 if($insertUser == FALSE)
                     die(FormatErrors( sqlsrv_errors()));
                 sqlsrv_free_stmt($insertUser);
+                sqlsrv_close($conn);
+            }
+            catch(Exception $e){
+            }
+        }
+
+        public static function updateStatus($Open_ID, $Status){
+            try{
+                require("connectionConnect.php");
+
+                $tsql = "UPDATE useraccount SET status = $Status WHERE userOpenId = $Open_ID";
+                $updateUser = sqlsrv_query($conn, $tsql);
+                if($updateUser == FALSE)
+                    die(FormatErrors( sqlsrv_errors()));
+                sqlsrv_free_stmt($updateUser);
                 sqlsrv_close($conn);
             }
             catch(Exception $e){

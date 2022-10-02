@@ -15,6 +15,8 @@ class LoginController
                         break;
                 case 2: $warning = "ใส่รหัสผ่านไม่ถูกต้อง";
                         break; 
+                case 3: $warning = "รหัสของท่านถูกแบน กรุณาติดต่อแอดมิน";
+                        break; 
             }
         }
         session_unset();
@@ -37,6 +39,12 @@ class LoginController
         $user = User::getByUserIdAndPassword($id, $password);
         if( is_null($user) ) {
             $_SESSION["error"] = 2;
+            $_SESSION["id"] = $id;
+            header("Location: $returnURL");
+            die();
+        }
+        if( $user->Status == 2 ) {
+            $_SESSION["error"] = 3;
             $_SESSION["id"] = $id;
             header("Location: $returnURL");
             die();

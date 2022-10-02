@@ -47,10 +47,15 @@ function call($controller, $action){
                                 $controller = new PostController();
                                 break;
 
-        case "report":            if( (!isset($_SESSION["openID"]) ) && (!isset($_SESSION["role"]) ) && ($_SESSION["role"] != 2) ){
+        case "report":          if( !isset($_SESSION["openID"]) ){
+                                    header("Location: ?controller=login&action=loginForm");
+                                    die();   
+                                }
+                                if( $_SESSION["role"] != 2 ){
                                     header("Location: ?controller=login&action=loginForm");
                                     die();
                                 }
+                                
                                 require_once("./models/userModel.php");
                                 require_once("./models/postModel.php");
                                 require_once("./models/tagModel.php");

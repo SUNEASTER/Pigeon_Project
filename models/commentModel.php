@@ -36,8 +36,11 @@
             try {
                 $CommentList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM comment WHERE postId = $Post_Id "
-                ."AND status = 1 OR ($ChkReport = 1 AND status = 2)"
+                $tsql = "SELECT * FROM comment "
+                ."INNER JOIN useraccount ON comment.userOpenId = useraccount.userOpenId "
+                ."WHERE comment.postId = $Post_Id "
+                ."AND comment.status = 1 OR ($ChkReport = 1 AND comment.status = 2) "
+                ."AND ($ChkReport = 1 OR useraccount.status != 2) "
                 ."ORDER BY createDate ASC";
                 $getComment = sqlsrv_query($conn, $tsql);
                 if ($getComment == FALSE)
@@ -68,11 +71,14 @@
 
         public static function countByPostId($Post_Id, $ChkReport){
             try {
-                $CommentList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT COUNT(commentId) AS count FROM comment WHERE postId = $Post_Id "
-                ."AND (status = 1 OR ($ChkReport = 1 AND status = 2))";
+                $tsql = "SELECT COUNT(commentId) AS count FROM comment "
+                ."INNER JOIN useraccount ON comment.userOpenId = useraccount.userOpenId "
+                ."WHERE comment.postId = $Post_Id "
+                ."AND (comment.status = 1 OR ($ChkReport = 1 AND comment.status = 2)) "
+                ."AND ($ChkReport = 1 OR useraccount.status != 2) ";
                 $getComment = sqlsrv_query($conn, $tsql);
+                
                 if ($getComment == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
                 $Count = 0;

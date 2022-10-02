@@ -39,9 +39,11 @@
             try {
                 $PostList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM post "
-                ."WHERE status = 1 "
-                ."AND (tagId = $Tag_Id OR $Tag_Id = 0) "
+                $tsql = "SELECT post.* FROM post "
+                ."INNER JOIN useraccount ON post.userOpenId = useraccount.userOpenId "
+                ."WHERE post.status = 1 "
+                ."AND (post.tagId = $Tag_Id OR $Tag_Id = 0) "
+                ."AND useraccount.status != 2 "
                 ."ORDER BY createDate DESC";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
@@ -73,10 +75,12 @@
             try {
                 $PostList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM post "
-                ."WHERE status = 1 "
-                ."AND (tagId = $Tag_Id OR $Tag_Id = 0) "
-                ."AND userOpenId = $UserOpenId "
+                $tsql = "SELECT post.* FROM post "
+                ."INNER JOIN useraccount ON post.userOpenId = useraccount.userOpenId "
+                ."WHERE post.status = 1 "
+                ."AND (post.tagId = $Tag_Id OR $Tag_Id = 0) "
+                ."AND post.userOpenId = $UserOpenId "
+                ."AND useraccount.status != 2 "
                 ."ORDER BY createDate DESC";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
@@ -142,8 +146,11 @@
         public static function getByPostId($Post_Id, $ChkReport){
             try {
                 require("connectionConnect.php");
-                $tsql = "SELECT TOP(1) * FROM post WHERE postId = $Post_Id"
-                ."AND (status = 1 OR ( $ChkReport = 1 AND status = 2))";
+                $tsql = "SELECT TOP(1) post.* FROM post "
+                ."INNER JOIN useraccount ON post.userOpenId = useraccount.userOpenId "
+                ."WHERE post.postId = $Post_Id "
+                ."AND (post.status = 1 OR ($ChkReport = 1 AND post.status = 2))"
+                ."AND ($ChkReport = 1 OR useraccount.status != 2) ";
                 $getPost = sqlsrv_query($conn, $tsql);
                 if ($getPost == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
@@ -164,6 +171,30 @@
                 if ($Count == 0)
                     return null;
                 return new Post($Post_Id, $Content, $UserOpen_Id, $CreateDate, $UpdateDate, $Status, $Tag_Id, $ChkReport);
+            }
+            catch(Exception $e) {
+                return null;
+            }
+        }
+
+        public static function countReportPostByUserOpenId($UserOpenId){
+            try {
+                require("connectionConnect.php");
+                $tsql = "SELECT SUM(cnt) as count FROM ( "
+                ."SELECT COUNT(postId) as cnt FROM post where status = 3 AND userOpenId = $UserOpenId UNION "
+                ."SELECT COUNT(commentId) as cnt FROM comment where status = 3 AND userOpenId = $UserOpenId) as cou";
+                $getPost = sqlsrv_query($conn, $tsql);
+                if ($getPost == FALSE)
+                    die(FormatErrors(sqlsrv_errors()));
+                $Count = 0;
+                while($row = sqlsrv_fetch_array($getPost, SQLSRV_FETCH_ASSOC))
+                {
+                    $Count = $row['count'];
+                }
+                sqlsrv_free_stmt($getPost);
+                sqlsrv_close($conn);
+
+                return $Count;
             }
             catch(Exception $e) {
                 return null;
