@@ -165,7 +165,7 @@
         border-radius: 30px;
         width: 80px;
         height: 40px;
-        margin-top: 20px;
+        margin-top: 0px;
         margin-left: auto;
     }
     
@@ -357,6 +357,19 @@
         width: 60px;
         height: 60px;
     }
+
+    #approve{
+        width: 69.49px; 
+        height: 38px; 
+        padding-left: 10px; 
+        background-color: var(--twitter-color); 
+        color: white;"
+    }
+    
+    #approve:hover {
+        background-color: #3386FF;
+    }
+
     </style>
 
   </head>
@@ -636,8 +649,7 @@
                     <input type="hidden" name="postID" value=<?php echo $post->Post_Id; ?>>
                     <input type="hidden" name="commentID" id="commentID_approve" value="">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
-                    <button type="submit" class="btn btn-danger" style="width: 69.49px; height: 38px; padding-left: 10px;"
-                                                                 id="approve" name="action" value="">ยืนยัน</button>
+                    <button type="submit" class="btn" id="approve" name="action" value="">ยืนยัน</button>
                 </form>
                 </div>
             </div>
