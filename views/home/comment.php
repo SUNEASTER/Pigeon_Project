@@ -369,7 +369,6 @@
         
         <input type="hidden" name="controller" id="controller_left_sidebar" value="">
         <input type="hidden" name="action" id="sidebar_action" value="">
-        <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
         
         <div class="sidebarOption <?php if($controller == "home") echo "active" ?>" onclick="submit_page('home')">
             <span class="material-icons"> home </span>
@@ -445,7 +444,6 @@
             </div>
             <input type="hidden" name="controller" value="post">
             <input type="hidden" name="action" value="index">
-            <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
             <input type="hidden" name="post" value=<?php echo $post->Post_Id; ?>>
           </form>
         </div>
@@ -550,7 +548,6 @@
                 <?php }?>
                 <input type="hidden" name="controller" value="home">
                 <input type="hidden" name="action" value="index">
-                <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
                 <input type="hidden" name="tag" id="tag_id" value="">
             </form>
         </div>

@@ -385,7 +385,7 @@
         
         <input type="hidden" name="controller" id="controller_left_sidebar" value="">
         <input type="hidden" name="action" id="sidebar_action" value="">
-        <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
+
         
         <div class="sidebarOption <?php if($controller == "home") echo "active" ?>" onclick="submit_page('home')">
             <span class="material-icons"> home </span>
@@ -429,7 +429,6 @@
                 <textarea class='scroll' id="content" name="content" maxlength="250"></textarea>
             </div>
             <input type="hidden" name="controller" value="post"/>
-            <input type="hidden" name="openID" value= <?php echo $user->Open_Id; ?>/>
             <button type="submit" class="tweetBox__tweetButton" name="action" value="addPost">Post</button>
         </form>
       </div>
@@ -504,7 +503,6 @@
                 <?php }?>
                 <input type="hidden" name="controller" value=<?php echo $controller; ?> >
                 <input type="hidden" name="action" value="index">
-                <input type="hidden" name="openID" value=<?php echo $user->Open_Id; ?>>
                 <input type="hidden" name="tag" id="tag_id" value="">
             </form>
         </div>
