@@ -410,7 +410,7 @@
     <!-- feed starts -->
     <div class="feed">
       <div class="feed__header">
-        <h2>Home</h2>
+        <h2><?php echo $controller; ?></h2>
       </div>
 
       <!-- tweetbox starts -->

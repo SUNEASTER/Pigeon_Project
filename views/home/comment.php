@@ -379,12 +379,12 @@
             <span class="material-icons"> search </span>
             <h2>โพสต์ของฉัน</h2>
         </div>
-        <?php if($user->Role == "admin") ?>
+        <?php if($user->Role == 2){ ?>
         <div class="sidebarOption <?php if($controller == "report") echo "active" ?>" onclick="submit_page('report')">
             <span class="material-icons"> report </span>
             <h2>การรายงาน</h2>
         </div>
-
+        <?php } ?>
         </form>  
         <button class="sidebar__tweet" id="goto_post" >Comment</button>
     </div>
@@ -546,7 +546,7 @@
                         <h2><?php echo $tag->Name; ?></h2>
                     </div>
                 <?php }?>
-                <input type="hidden" name="controller" value="home">
+                <input type="hidden" name="controller" value=<?php echo $controller; ?> >
                 <input type="hidden" name="action" value="index">
                 <input type="hidden" name="tag" id="tag_id" value="">
             </form>

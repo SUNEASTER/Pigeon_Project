@@ -15,7 +15,7 @@
             try {
                 $TagList = [];
                 require("connectionConnect.php");
-                $tsql = "SELECT * FROM tag";
+                $tsql = "SELECT * FROM tag ORDER BY tagId";
                 $getTag = sqlsrv_query($conn, $tsql);
                 if ($getTag == FALSE)
                     die(FormatErrors(sqlsrv_errors()));
