@@ -367,6 +367,11 @@
         margin-top: 2px;
         margin-right: 9px;
     }
+
+    #logo{
+        width: 60px;
+        height: 60px;
+    }
     
     </style>
 
@@ -375,7 +380,7 @@
     <!-- sidebar starts -->
     <div class="sidebar">
         
-        <i class="fab fa-twitter"></i>
+        <img src="resources/12.jpg" id="logo">
         <form action="" method="GET" id="page_form" name="page_form">      
         
         <input type="hidden" name="controller" id="controller_left_sidebar" value="">

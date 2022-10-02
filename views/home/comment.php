@@ -352,6 +352,11 @@
         display: flex;
         flex-direction: row;
     }
+
+    #logo{
+        width: 60px;
+        height: 60px;
+    }
     </style>
 
   </head>
@@ -359,7 +364,7 @@
     <!-- sidebar starts -->
     <div class="sidebar">
         
-        <i class="fab fa-twitter"></i>
+        <img src="resources/12.jpg" id="logo">
         <form action="" method="GET" id="page_form" name="page_form">      
         
         <input type="hidden" name="controller" id="controller_left_sidebar" value="">
@@ -473,7 +478,7 @@
           <div class="post__header">
             <div class="post__headerText">
                 <div class="post__tag">
-                    <div class="post__headerText__showbox"> <p><?php echo $comment->CommentNo; ?></p> </div>
+                    <div class="post__headerText__showbox"> <p><?php if($comment->CommentNo == 0) echo "เจ้าของ"; else echo "คนที่ ".$comment->CommentNo; ?></p> </div>
                     <?php if ($user->Open_Id == $comment->UserOpen_Id) { ?>
                         <div class="post__headerText__showbox"> <p> ของฉัน </p> </div>  
                     <?php }?>
@@ -491,7 +496,7 @@
           <form action="" method="GET" id="footerpost_form" name="footerpost_form">
             <div class="post__footer">
                 <p></p>
-                <p><?php echo $user->Open_Id." ".$comment->UserOpen_Id; ?></p>
+                <p></p>
                 <div class="container_comment_box">
                     
                     <?php if($controller == "report" && $comment->Status == "อยู่ระหว่างตรวจสอบ"){ ?> 
