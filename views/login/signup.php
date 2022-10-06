@@ -172,6 +172,9 @@
                 if(email.value == ""){
                     email.setCustomValidity('กรุณาใส่อีเมล');
                 }
+                else if(email.value.indexOf("@") == -1){
+                    email.setCustomValidity('กรุณาใส่อีเมลให้ถูกต้อง');
+                }
                 else if(username.value == ""){
                     username.setCustomValidity('กรุณาใส่ชื่อผู้ใช้');
                 }
